@@ -2,13 +2,19 @@
 The website where you will find your next favorite board game
 
 ## HW5 Deliverables
-1. You can find the chart at [Link to be updated]()
+1. We have a [roadmap](#roadmap), you can see a zoomed out snapshot [here](docs/hw5_gantt.png).
 2. We have a [**Heroku** pipeline](#deployment) with [app in staging](#staging) as of now
     * We have a submittable form as `GET` [`/form`](https://slackers-csci-5828-staging-v2.herokuapp.com/form) (Click to go)
     * When submitted as `PUT` `/form` it will show page containing the information
     * It additionally maintains a in-memory list of the strings.
     * You can see and sign-up for the exclusive public wait list for the app this way :D
 
+## Project management
+### Project: 
+Stories : [link](https://github.com/orgs/CSCI-5828-Foundations-Sftware-Engr/projects/3/)
+
+### Roadmap
+ Board: [link](https://github.com/orgs/CSCI-5828-Foundations-Sftware-Engr/projects/3/views/3)
     
 ### Thanks to [Continuum Collective](co-collective-LICENSE) for Kotlin-ktor-starter base project 
 
@@ -70,4 +76,4 @@ java -jar applications/data-collector-server/build/libs/data-collector-server-1.
 java -jar applications/data-analyzer-server/build/libs/data-analyzer-server-1.0-SNAPSHOT.jar
 ```
 
-## [Docs](docs/index.md)
+## [Docs](docs/README.md)
