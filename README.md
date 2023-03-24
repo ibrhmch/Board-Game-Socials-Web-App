@@ -3,7 +3,7 @@ The website where you will find your next favorite board game
 
 ## HW5 Deliverables
 1. We have a [roadmap](#roadmap), you can see a zoomed out snapshot [here](docs/hw5_gantt.png).
-2. We have a [**Heroku** pipeline](#deployment) with [app in staging](#staging) as of now
+2. We have a [**Heroku** pipeline](#deployment) with app in [staging](#staging)  and [production](#production)as of now
     * We have a submittable form as `GET` [`/form`](https://slackers-csci-5828-staging-v2.herokuapp.com/form) (Click to go)
     * When submitted as `PUT` `/form` it will show page containing the information
     * It additionally maintains a in-memory list of the strings.
@@ -43,6 +43,9 @@ We have a staging deployment up and production can be up  on a button-click.
 
 #### Staging
 Staging : [link](https://slackers-csci-5828-staging-v2.herokuapp.com/)
+
+#### Production
+Production: [link](https://slackers-csci-5828-product-v1.herokuapp.com/)
 
 ## Development
 
