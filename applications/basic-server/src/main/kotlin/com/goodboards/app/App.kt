@@ -15,6 +15,13 @@ import io.ktor.util.pipeline.*
 import org.slf4j.LoggerFactory
 import models.Game
 import java.util.*
+import io.ktor.client.*
+import io.ktor.client.engine.cio.*
+import io.ktor.client.features.json.*
+import io.ktor.client.features.json.serializer.*
+import io.ktor.client.features.logging.*
+import io.ktor.client.request.*
+import models.NewsResponse
 
 val games = mutableListOf(
     Game.newEntry("Uno", "typical friendship destroying game"),
@@ -26,6 +33,34 @@ val games = mutableListOf(
 )
 
 private val logger = LoggerFactory.getLogger("App.kt")
+val client = HttpClient(CIO) {
+    install(Logging) {
+        logger = Logger.DEFAULT
+        level = LogLevel.HEADERS
+    }
+    install(JsonFeature) {
+        serializer = KotlinxSerializer()
+    }
+}
+val users = mutableListOf(
+    User.newEntry(
+        "Abhishek Purushothama",
+    ),
+    User.newEntry(
+        "Khaled Hossain",
+    ),
+    User.newEntry(
+        "Ch Mohammad Ibrahim",
+    ),
+    User.newEntry(
+        "Michelle Tran",
+    ),
+    User.newEntry(
+        "Tuan Tran",
+    ),
+    User.newEntry(
+        "Lin Shi",
+    ))
 
 fun Application.module() {
     install(DefaultHeaders)
@@ -37,8 +72,8 @@ fun Application.module() {
         get {
             call.respond(FreeMarkerContent("games.ftl", mapOf("games" to games)))
         }
-        get("/news") {
-            call.respond(FreeMarkerContent("news.ftl", mapOf("games" to games)))
+        get("/form") {
+            call.respond(FreeMarkerContent("form.ftl", mapOf("users" to users)))
         }
         get("/contact") {
             call.respond(FreeMarkerContent("contact.ftl", mapOf("games" to games)))
