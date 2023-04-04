@@ -31,7 +31,6 @@ import io.ktor.client.features.logging.*
 import io.ktor.client.request.*
 import io.ktor.request.*
 
-
 val games = mutableListOf(
     Game("Uno", "typical friendship destroying game"),
     Game("Uno", "typical friendship destroying game"),
