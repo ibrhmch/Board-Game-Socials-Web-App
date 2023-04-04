@@ -1,12 +1,18 @@
 version '1.0-SNAPSHOT'
 
 apply plugin: 'application'
+apply plugin: 'kotlin' // or 'kotlin-multiplatform' for multiplatform projects
+apply plugin: 'kotlinx-serialization'
 
 mainClassName = "com.goodboards.app.AppKt"
 
 dependencies {
     implementation "io.ktor:ktor-freemarker:$ktor_version"
     implementation "io.ktor:ktor-jackson:$ktor_version"
+    implementation "io.ktor:ktor-client-core:$ktor_version"
+    implementation "io.ktor:ktor-client-cio:$ktor_version"
+    implementation "io.ktor:ktor-client-logging:$ktor_version"
+    implementation "io.ktor:ktor-client-serialization:$ktor_version"
 }
 
 tasks.withType(Copy).all {

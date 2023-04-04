@@ -14,8 +14,23 @@ import io.ktor.util.*
 import io.ktor.util.pipeline.*
 import models.User
 import java.util.*
+import io.ktor.client.*
+import io.ktor.client.engine.cio.*
+import io.ktor.client.features.json.*
+import io.ktor.client.features.json.serializer.*
+import io.ktor.client.features.logging.*
+import io.ktor.client.request.*
+import models.NewsResponse
 
-
+val client = HttpClient(CIO) {
+    install(Logging) {
+        logger = Logger.DEFAULT
+        level = LogLevel.HEADERS
+    }
+    install(JsonFeature) {
+        serializer = KotlinxSerializer()
+    }
+}
 val users = mutableListOf(
     User.newEntry(
         "Abhishek Purushothama",
@@ -44,7 +59,8 @@ fun Application.module() {
     }
     install(Routing) {
         get {
-            call.respond(FreeMarkerContent("index.ftl", mapOf("users" to users)))
+            val news: NewsResponse = client.get("https://newsapi.org/v2/everything?q=board_games&apiKey=")
+            call.respond(FreeMarkerContent("index.ftl", mapOf("news" to news.articles)))
         }
         get("/form") {
             call.respond(FreeMarkerContent("form.ftl", mapOf("users" to users)))
