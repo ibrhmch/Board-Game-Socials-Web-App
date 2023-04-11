@@ -14,6 +14,8 @@ import io.ktor.util.*
 import io.ktor.util.pipeline.*
 import org.slf4j.LoggerFactory
 import models.Game
+import models.Game
+import models.Session
 import java.util.*
 import io.ktor.client.*
 import io.ktor.client.engine.cio.*
@@ -72,9 +74,27 @@ fun Application.module() {
         get {
             call.respond(FreeMarkerContent("games.ftl", mapOf("games" to games)))
         }
-        get("/form") {
-            call.respond(FreeMarkerContent("form.ftl", mapOf("users" to users)))
+        get("/sessions") {
+            call.respond(FreeMarkerContent("sessions.ftl", mapOf("sessions" to sessions)))
         }
+        get("/sessions/{id}") {
+            // Get session info from db
+            val id = call.parameters.getOrFail<Int>("id").toInt()
+            call.respond(FreeMarkerContent("session.ftl", mapOf("session" to sessions.find { it.id == id })))
+        }
+        get("/contact") {
+            call.respond(FreeMarkerContent("contact.ftl", mapOf("games" to games)))
+        }
+        get("/games") {
+            call.respond(FreeMarkerContent("games.ftl", mapOf("games" to games)))
+        }
+        get("/game/{id}") {
+            val id = call.parameters.getOrFail<Int>("id").toInt()
+            call.respond(FreeMarkerContent("game.ftl", mapOf("game" to games.find { it.id == id })))
+        }
+        get("/game/{id}/new") {
+            val id = call.parameters.getOrFail<Int>("id").toInt()
+            call.respond(FreeMarkerContent("newGame.ftl", mapOf("game" to games.find { it.id == id })))
         get("/contact") {
             call.respond(FreeMarkerContent("contact.ftl", mapOf("games" to games)))
         }
