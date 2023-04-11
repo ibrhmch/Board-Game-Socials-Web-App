@@ -61,18 +61,6 @@ fun Application.module() {
         get {
             call.respond(FreeMarkerContent("games.ftl", mapOf("games" to games)))
         }
-        get("/contact") {
-            call.respond(FreeMarkerContent("contact.ftl", mapOf("games" to games)))
-        }
-        get("/games") {
-            call.respond(FreeMarkerContent("games.ftl", mapOf("games" to games)))
-        }
-        get("/game/{id}") {
-            val id = call.parameters.getOrFail<Int>("id").toInt()
-//            val news: NewsResponse = client.get("https://newsapi.org/v2/everything?q=board_games&apiKey=18af37ae1b52421d808c96babcf7db7b")
-
-            call.respond(FreeMarkerContent("game.ftl", mapOf("game" to games.find { it.id == id })))
-        }
         get("/game/{id}/new") {
             val id = call.parameters.getOrFail<Int>("id").toInt()
             call.respond(FreeMarkerContent("newGame.ftl", mapOf("game" to games.find { it.id == id })))
