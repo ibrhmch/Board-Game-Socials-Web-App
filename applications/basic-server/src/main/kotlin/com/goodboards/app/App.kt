@@ -12,28 +12,22 @@ import io.ktor.server.engine.*
 import io.ktor.server.netty.*
 import io.ktor.util.*
 import io.ktor.util.pipeline.*
-import models.User
+import models.Game
+import models.Session
 import java.util.*
 
-val users = mutableListOf(
-    User.newEntry(
-        "Abhishek Purushothama",
-    ),
-    User.newEntry(
-        "Khaled Hossain",
-    ),
-    User.newEntry(
-        "Ch Mohammad Ibrahim",
-    ),
-    User.newEntry(
-        "Michelle Tran",
-    ),
-    User.newEntry(
-        "Tuan Tran",
-    ),
-    User.newEntry(
-        "Lin Shi",
-    ))
+val games = mutableListOf(
+    Game.newEntry("Uno", "typical friendship destroying game"),
+    Game.newEntry("Uno", "typical friendship destroying game"),
+    Game.newEntry("Uno", "typical friendship destroying game"),
+    Game.newEntry("Uno", "typical friendship destroying game"),
+    Game.newEntry("Uno", "typical friendship destroying game"),
+    Game.newEntry("Uno", "typical friendship destroying game"),
+)
+
+val sessions = mutableListOf(
+    Session.newEntry("Khaled's sesh", "Uno", 5),
+)
 
 fun Application.module() {
     install(DefaultHeaders)
@@ -43,18 +37,19 @@ fun Application.module() {
     }
     install(Routing) {
         get {
-            call.respond(FreeMarkerContent("index.ftl", mapOf("users" to users)))
+            call.respond(FreeMarkerContent("games.ftl", mapOf("games" to games)))
+        }
+        get("/news") {
+            call.respond(FreeMarkerContent("news.ftl", mapOf("games" to games)))
         }
         get("/form") {
             call.respond(FreeMarkerContent("form.ftl", mapOf("users" to users)))
         }
-        post("/form") {
-            val formParameters = call.receiveParameters()
-            val title = formParameters.getOrFail("title")
-            val newEntry = User.newEntry(title)
-            println(newEntry)
-            users.add(newEntry)
-            call.respond(FreeMarkerContent("show.ftl", mapOf("user" to users.find { it.id == newEntry.id })))
+        get("/contact") {
+            call.respond(FreeMarkerContent("contact.ftl", mapOf("games" to games)))
+        }
+        get("/games") {
+            call.respond(FreeMarkerContent("games.ftl", mapOf("games" to games)))
         }
 
         static("images") { resources("images") }
