@@ -12,16 +12,9 @@ class GetFormTest : BaseAppTest() {
 
     @Test
     fun testGetFormRespondsWithForm() = testApp {
-        handleRequest(HttpMethod.Get, "/form").apply {
+        handleRequest(HttpMethod.Get, "/games").apply {
             assertEquals(200, response.status()?.value)
-            assertTrue(response.content!!.contains("What is your name?"))
-        }
-    }
-
-    @Test
-    fun testGetFormGiveSuccess() = testApp {
-        handleRequest(HttpMethod.Get, "/form").apply {
-            assertEquals(200, response.status()?.value)
+            assertTrue(response.content!!.contains("GOODBOARDS"))
         }
     }
 }

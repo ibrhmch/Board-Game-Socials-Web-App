@@ -11,10 +11,20 @@ import kotlin.test.assertTrue
 class AppTest : BaseAppTest() {
 
     @Test
-    fun testEmptyHome() = testApp {
+    fun testHomePage() = testApp {
         handleRequest(HttpMethod.Get, "/").apply {
             assertEquals(200, response.status()?.value)
-            assertTrue(response.content!!.contains("Goodboards"))
+
+            assertTrue(response.content!!.contains("GOODBOARDS"))
+        }
+    }
+
+    @Test
+    fun testContactPage() = testApp {
+        handleRequest(HttpMethod.Get, "/").apply {
+            assertEquals(200, response.status()?.value)
+
+            assertTrue(response.content!!.contains("Contact"))
         }
     }
 }
