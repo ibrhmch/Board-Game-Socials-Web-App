@@ -15,7 +15,7 @@ object DBInterface {
     }
 
     fun getAllGames() : List<Game> {
-        val query = connection.prepareStatement("SELECT * FROM goodboards.games")
+        val query = connection.prepareStatement("SELECT * FROM goodboards.games;")
         val result = query.executeQuery()
         val games = mutableListOf<Game>()
         while(result.next()){
@@ -28,7 +28,7 @@ object DBInterface {
     }
 
     fun getGame(id: String) : Game {
-        val statement = "SELECT * FROM goodboards.games WHERE id=$id;"
+        val statement = "SELECT * FROM goodboards.games WHERE id='$id';"
         val query = connection.prepareStatement(statement)
         val result = query.executeQuery()
         val games = mutableListOf<Game>()
@@ -44,10 +44,26 @@ object DBInterface {
         return games[0]
     }
 
-    // TODO: in progress
-    fun addGame(id: String, name: String, description: String) {
-        val statement = "INSERT INTO goodboards.games(id, name, description) VALUES(?,?,?);"
+    fun addGame(name: String, description: String) {
+        val statement = "INSERT INTO goodboards.games(name, description) VALUES('$name','$description');"
+        connection.prepareStatement(statement).execute()
+    }
 
+    fun getGameByName(name: String) : Game {
+        val statement = "SELECT * FROM goodboards.games WHERE name='$name';"
+        val query = connection.prepareStatement(statement)
+        val result = query.executeQuery()
+        val games = mutableListOf<Game>()
+        if(result.next()) {
+            val id = result.getString("id")
+            val name = result.getString("name")
+            val description = result.getString("description")
+            games.add(Game(id, name, description))
+        }
+        if(games.size != 1) {
+            throw Exception("Incorrect number of games with name $name")
+        }
+        return games[0]
     }
 
 }

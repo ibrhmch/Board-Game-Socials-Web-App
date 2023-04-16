@@ -1,7 +1,6 @@
 package com.goodboards.app
 
 import freemarker.cache.ClassTemplateLoader
-import com.goodboards.db.*
 import io.ktor.application.*
 import io.ktor.features.*
 import io.ktor.freemarker.*
@@ -72,13 +71,6 @@ private fun PipelineContext<Unit, ApplicationCall>.headers(): MutableMap<String,
 }
 
 fun main() {
-
-    // TODO: delete, for testing only
-    println("Connection successful?")
-    println(DBInterface.isConnected())
-    val games = DBInterface.getAllGames()
-    println(games)
-
     TimeZone.setDefault(TimeZone.getTimeZone("UTC"))
     val port = System.getenv("PORT")?.toInt() ?: 8888
     embeddedServer(Netty, port, watchPaths = listOf("basic-server"), module = { module() }).start()
