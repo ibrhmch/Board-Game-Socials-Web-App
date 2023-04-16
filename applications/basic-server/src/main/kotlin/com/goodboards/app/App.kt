@@ -5,7 +5,6 @@ import io.ktor.application.*
 import io.ktor.features.*
 import io.ktor.freemarker.*
 import io.ktor.http.content.*
-import io.ktor.request.*
 import io.ktor.response.*
 import io.ktor.routing.*
 import io.ktor.server.engine.*
@@ -13,7 +12,6 @@ import io.ktor.server.netty.*
 import io.ktor.util.*
 import io.ktor.util.pipeline.*
 import models.Game
-import models.Session
 import java.util.*
 
 val games = mutableListOf(
@@ -23,10 +21,6 @@ val games = mutableListOf(
     Game.newEntry("Uno", "typical friendship destroying game"),
     Game.newEntry("Uno", "typical friendship destroying game"),
     Game.newEntry("Uno", "typical friendship destroying game"),
-)
-
-val sessions = mutableListOf(
-    Session.newEntry("Khaled's sesh", "Uno", 5),
 )
 
 fun Application.module() {
@@ -41,9 +35,6 @@ fun Application.module() {
         }
         get("/news") {
             call.respond(FreeMarkerContent("news.ftl", mapOf("games" to games)))
-        }
-        get("/form") {
-            call.respond(FreeMarkerContent("form.ftl", mapOf("users" to users)))
         }
         get("/contact") {
             call.respond(FreeMarkerContent("contact.ftl", mapOf("games" to games)))
