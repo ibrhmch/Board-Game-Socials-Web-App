@@ -14,6 +14,7 @@ import io.ktor.util.*
 import io.ktor.util.pipeline.*
 import models.User
 import java.util.*
+import com.goodboards.db.*
 
 val users = mutableListOf(
     User.newEntry(
