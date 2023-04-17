@@ -10,11 +10,12 @@
             <p>
                 ${game.description}
             </p>
-<#--            <div class="flex flex-col items-center ">-->
-<#--                <a class="bg-[#cdc9cb] m-3 hover:bg-[#ce5936] text-[#a58c4a] font-bold py-2 px-4 border border-[#ce5936] rounded" href="/game/${game.id}/new">-->
-<#--                  Track Game-->
-<#--                </a>-->
-<#--            </div>-->
+        </div>
+        <div>
+            <h3>
+                News
+            </h3>
+            <hr>
         </div>
         <div>
         news
