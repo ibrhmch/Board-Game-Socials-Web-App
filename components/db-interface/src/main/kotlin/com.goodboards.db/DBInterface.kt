@@ -66,4 +66,12 @@ object DBInterface {
         return games[0]
     }
 
+    fun deleteGameById(uuid: String): Boolean {
+        val statement = "DELETE FROM goodboards.games WHERE id = CAST(? AS UUID);"
+        val query = connection.prepareStatement(statement)
+        query.setString(1, uuid)
+        val rowsDeleted = query.executeUpdate()
+        return rowsDeleted != 0
+    }
+
 }
