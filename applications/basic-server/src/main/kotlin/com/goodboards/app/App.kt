@@ -17,7 +17,6 @@ import io.ktor.util.pipeline.*
 import org.slf4j.LoggerFactory
 import models.Game
 import models.Game
-import models.Session
 import java.util.*
 import io.ktor.client.*
 import io.ktor.client.engine.cio.*
@@ -145,6 +144,10 @@ fun Application.module() {
         }
         get("/games") {
             call.respond(FreeMarkerContent("games.ftl", mapOf("games" to games)))
+        }
+        get("/game/{id}/new") {
+            val id = call.parameters.getOrFail<Int>("id").toInt()
+            call.respond(FreeMarkerContent("newGame.ftl", mapOf("game" to games.find { it.id == id })))
         }
 
         static("images") { resources("images") }
