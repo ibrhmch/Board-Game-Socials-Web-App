@@ -25,7 +25,28 @@ import io.ktor.client.features.json.*
 import io.ktor.client.features.json.serializer.*
 import io.ktor.client.features.logging.*
 import io.ktor.client.request.*
+import models.User
 import models.NewsResponse
+
+val users = mutableListOf(
+    User.newEntry(
+        "Abhishek Purushothama",
+    ),
+    User.newEntry(
+        "Khaled Hossain",
+    ),
+    User.newEntry(
+        "Ch Mohammad Ibrahim",
+    ),
+    User.newEntry(
+        "Michelle Tran",
+    ),
+    User.newEntry(
+        "Tuan Tran",
+    ),
+    User.newEntry(
+        "Lin Shi",
+    ))
 
 val games = mutableListOf(
     Game.newEntry("Uno", "typical friendship destroying game"),
@@ -76,8 +97,19 @@ fun Application.module() {
         templateLoader = ClassTemplateLoader(this::class.java.classLoader, "templates")
     }
     install(Routing) {
-        get ("/"){
+        get {
             call.respond(FreeMarkerContent("games.ftl", mapOf("games" to games)))
+        }
+        get("/form") {
+            call.respond(FreeMarkerContent("form.ftl", mapOf("users" to users)))
+        }
+        post("/form") {
+            val formParameters = call.receiveParameters()
+            val title = formParameters.getOrFail("title")
+            val newEntry = User.newEntry(title)
+            println(newEntry)
+            users.add(newEntry)
+            call.respond(FreeMarkerContent("show.ftl", mapOf("user" to users.find { it.id == newEntry.id })))
         }
         get("/sessions") {
             call.respond(FreeMarkerContent("sessions.ftl", mapOf("sessions" to sessions)))
