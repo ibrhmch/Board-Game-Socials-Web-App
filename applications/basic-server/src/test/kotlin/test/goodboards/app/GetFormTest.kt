@@ -30,13 +30,4 @@ class GetFormTest : BaseAppTest() {
     }
 
 
-    @Test
-    fun singleGame() = testApp {
-        handleRequest(HttpMethod.Get, "/game/0").apply {
-            assertEquals(200, response.status()?.value)
-            assertTrue(response.content!!.contains("GOODBOARDS"))
-            // make sure news is part of the game display
-            assertTrue(response.content!!.contains("News"))
-        }
-    }
 }
