@@ -125,14 +125,6 @@ fun Application.module() {
             users.add(newEntry)
             call.respond(FreeMarkerContent("show.ftl", mapOf("user" to users.find { it.id == newEntry.id })))
         }
-        get("/sessions") {
-            call.respond(FreeMarkerContent("sessions.ftl", mapOf("sessions" to sessions)))
-        }
-        get("/sessions/{id}") {
-            // Get session info from db
-            val id = call.parameters.getOrFail<Int>("id").toInt()
-            call.respond(FreeMarkerContent("session.ftl", mapOf("session" to sessions.find { it.id == id })))
-        }
         get("/contact") {
             call.respond(FreeMarkerContent("contact.ftl", mapOf("games" to games)))
         }
