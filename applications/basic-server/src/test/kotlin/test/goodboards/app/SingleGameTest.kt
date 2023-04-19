@@ -15,7 +15,8 @@ class SingleGameTest : BaseAppTest() {
             assertEquals(200, response.status()?.value)
         }
     }
-    // Testing the placeholder for game 0: Uno to ensure the correct game name and description is returned. 
+
+    // Testing the placeholder for game 0: Uno to ensure the correct game name and description is returned.
     @Test
     fun testGameDetails() = testApp{
         handleRequest ( HttpMethod.Get, "/game/0" ).apply{
