@@ -1,29 +1,29 @@
 package com.goodboards.db
 
 import java.sql.Connection
-import java.sql.DriverManager
 
-// TODO: decide if DBConnection.setConnection() prior to all uses is good?
+data class DBCredentials(val url: String, val username: String, val password: String)
+
 object DBConnection {
-    private val jdbcUrl = "jdbc:" + System.getenv("DATABASE_URL")
-    private val username = System.getenv("DATABASE_USERNAME")
-    private val password = System.getenv("DATABASE_PASSWORD")
     private var connection: Connection? = null
 
-    // TODO: find a better way to write this
-    fun isConnected(): Boolean {
-        if(connection == null) {
-            return false
-        }
-        return true
+    fun getCredentials(): DBCredentials {
+        val jdbcUrl: String = SystemWrapper.getenv("DATABASE_URL")
+        val username: String = SystemWrapper.getenv("DATABASE_USERNAME")
+        val password: String = SystemWrapper.getenv("DATABASE_PASSWORD")
+        return DBCredentials(jdbcUrl, username, password)
+    }
+
+    fun hasConnection(): Boolean {
+        return connection != null
     }
 
     fun getConnection(): Connection {
         return connection!!
     }
 
-    fun setConnection() {
-        connection = DriverManager
-            .getConnection(jdbcUrl, username, password)
+    fun setConnection(jdbcUrl: String, username: String, password: String) {
+        connection = DriverManagerWrapper
+            .getConnection("jdbc:$jdbcUrl", username, password)
     }
 }
