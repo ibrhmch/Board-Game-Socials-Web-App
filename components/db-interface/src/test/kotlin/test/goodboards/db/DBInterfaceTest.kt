@@ -7,8 +7,6 @@ import org.junit.Test
 import kotlin.test.*
 import io.mockk.*
 import java.sql.Connection
-import java.sql.PreparedStatement
-import java.sql.ResultSet
 
 class DBInterfaceTest {
 
@@ -52,21 +50,11 @@ class DBInterfaceTest {
             Game("1", "Chess", "Classic Chess"),
             Game("2", "Uno", "Classic Uno")
         )
+        // *** Setup query
         val helper = DBInterfaceTestHelpers()
         helper.parseGames(games)
-        val ids = helper.getGameIds()
-        val names = helper.getGameNames()
-        val descriptions = helper.getGameDescriptions()
-        val iterations = helper.getGameIterations()
-        // *** Mock fetched games
-        val mockedResultSet: ResultSet = mockk(relaxed = true)
-        every { mockedResultSet.getString("id") } returnsMany ids
-        every { mockedResultSet.getString("name") } returnsMany names
-        every { mockedResultSet.getString("description") } returnsMany descriptions
-        every { mockedResultSet.next() } returnsMany iterations
-        // *** Mock query process
-        val mockedStatement: PreparedStatement = mockk(relaxed = true)
-        every { mockedStatement.executeQuery() } returns mockedResultSet
+        val mockedResultSet = helper.getMockedResultSet()
+        val mockedStatement = helper.getPreparedStatement(mockedResultSet)
         // *** Mock DB Connection
         val mockedConnection: Connection = mockk(relaxed = true)
         every { mockedConnection.prepareStatement("SELECT * FROM goodboards.games;") } returns mockedStatement
@@ -81,10 +69,111 @@ class DBInterfaceTest {
         assertEquals(games, result)
     }
 
+    @Test
+    fun testGetAllGames_One() {
+        // given -> setup
+        // *** Setup desired game values
+        val games = mutableListOf(
+            Game("1", "Chess", "Classic Chess")
+        )
+        // *** Setup query
+        val helper = DBInterfaceTestHelpers()
+        helper.parseGames(games)
+        val mockedResultSet = helper.getMockedResultSet()
+        val mockedStatement = helper.getPreparedStatement(mockedResultSet)
+        // *** Mock DB Connection
+        val mockedConnection: Connection = mockk(relaxed = true)
+        every { mockedConnection.prepareStatement("SELECT * FROM goodboards.games;") } returns mockedStatement
+        val mockedDBConnection: DBConnection = mockk(relaxed = true)
+        every { mockedDBConnection.getConnection() } returns mockedConnection
+
+        // when -> test action
+        val dbInterface = DBInterface(mockedDBConnection)
+        val result = dbInterface.getAllGames()
+
+        // then -> verify results
+        assertEquals(games, result)
+    }
+
+    @Test
+    fun testGetAllGames_Zero() {
+        // given -> setup
+        // *** Setup desired game values
+        val games = listOf<Game>()
+        // *** Setup query
+        val helper = DBInterfaceTestHelpers()
+        helper.parseGames(games)
+        val mockedResultSet = helper.getMockedResultSet()
+        val mockedStatement = helper.getPreparedStatement(mockedResultSet)
+        // *** Mock DB Connection
+        val mockedConnection: Connection = mockk(relaxed = true)
+        every { mockedConnection.prepareStatement("SELECT * FROM goodboards.games;") } returns mockedStatement
+        val mockedDBConnection: DBConnection = mockk(relaxed = true)
+        every { mockedDBConnection.getConnection() } returns mockedConnection
+
+        // when -> test action
+        val dbInterface = DBInterface(mockedDBConnection)
+        val result = dbInterface.getAllGames()
+
+        // then -> verify results
+        assertEquals(games, result)
+    }
+
+    @Test
+    fun testGetGameById_Exists() {
+        // given -> setup
+        // *** Setup desired game values
+        val games = mutableListOf(
+            Game("1", "Chess", "Classic Chess")
+        )
+        // *** Setup query
+        val helper = DBInterfaceTestHelpers()
+        helper.parseGames(games)
+        val mockedResultSet = helper.getMockedResultSet()
+        val mockedStatement = helper.getPreparedStatement(mockedResultSet)
+        // *** Mock DB Connection
+        val mockedConnection: Connection = mockk(relaxed = true)
+        every { mockedConnection.prepareStatement("SELECT * FROM goodboards.games WHERE id='1';") } returns mockedStatement
+        val mockedDBConnection: DBConnection = mockk(relaxed = true)
+        every { mockedDBConnection.getConnection() } returns mockedConnection
+
+        // when -> test action
+        val dbInterface = DBInterface(mockedDBConnection)
+        val result = dbInterface.getGameById("1")
+
+        // then -> verify results
+        assertEquals(games[0], result)
+    }
+
+    @Test
+    fun testGetGameById_DoesNotExist() {
+        // given -> setup
+        // *** Setup desired game values
+        val games = listOf<Game>()
+        // *** Setup query
+        val helper = DBInterfaceTestHelpers()
+        helper.parseGames(games)
+        val mockedResultSet = helper.getMockedResultSet()
+        val mockedStatement = helper.getPreparedStatement(mockedResultSet)
+        // *** Mock DB Connection
+        val mockedConnection: Connection = mockk(relaxed = true)
+        every { mockedConnection.prepareStatement("SELECT * FROM goodboards.games WHERE id='1';") } returns mockedStatement
+        val mockedDBConnection: DBConnection = mockk(relaxed = true)
+        every { mockedDBConnection.getConnection() } returns mockedConnection
+
+        // when -> test action
+        val dbInterface = DBInterface(mockedDBConnection)
+
+        // then -> verify results
+        assertFailsWith<Exception>(
+            block = {
+                dbInterface.getGameById("1")
+            }
+        )
+    }
+
     /*  Things to Test
     * - Creating DB Connection --> DBConnectionTest.kt
-    * - getAllGames() -- multiple games, 1 game, 0 games
-    * - getGameById() -- when game is there, when game is not
     * - addGame() -- add 1 game, add 2 games, try to add a game already added?
     * - getGameByName() -- when game name exists, when game doesn't exist
     * - deleteGameById() -- when successful delete, when incorrect delete
