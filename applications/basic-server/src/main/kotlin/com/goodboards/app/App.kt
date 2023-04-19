@@ -76,10 +76,6 @@ fun Application.module() {
             val news = mutableListOf("temp news placeholder 1", "temp news placeholder 2", "temp news placeholder 3")
             call.respond(FreeMarkerContent("game.ftl", mapOf("game" to games.find { it.id == id }, "news" to news)))
         }
-        get("/game/{id}/new") {
-            val id = call.parameters.getOrFail<Int>("id").toInt()
-            call.respond(FreeMarkerContent("newGame.ftl", mapOf("game" to games.find { it.id == id })))
-        }
 
         static("images") { resources("images") }
         static("style") { resources("style") }
