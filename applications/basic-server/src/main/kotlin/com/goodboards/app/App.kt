@@ -3,6 +3,8 @@ package com.goodboards.app
 import com.goodboards.app.database.DatabaseInit
 import freemarker.cache.ClassTemplateLoader
 import io.ktor.application.*
+import io.ktor.client.*
+import io.ktor.client.engine.cio.*
 import io.ktor.features.*
 import io.ktor.freemarker.*
 import io.ktor.http.content.*
@@ -34,6 +36,9 @@ val games = mutableListOf(
     Game.newEntry("Uno", "typical friendship destroying game"),
 )
 
+val sessions = mutableListOf(
+    Session.newEntry("Test1", "gameTest", 5),
+)
 private val logger = LoggerFactory.getLogger("App.kt")
 val client = HttpClient(CIO) {
     install(Logging) {
@@ -71,7 +76,7 @@ fun Application.module() {
         templateLoader = ClassTemplateLoader(this::class.java.classLoader, "templates")
     }
     install(Routing) {
-        get {
+        get ("/"){
             call.respond(FreeMarkerContent("games.ftl", mapOf("games" to games)))
         }
         get("/sessions") {
