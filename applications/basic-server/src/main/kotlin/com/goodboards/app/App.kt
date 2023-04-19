@@ -27,6 +27,10 @@ import io.ktor.client.features.logging.*
 import io.ktor.client.request.*
 import models.User
 import models.NewsResponse
+import io.ktor.client.features.json.*
+import io.ktor.client.features.json.serializer.*
+import io.ktor.client.features.logging.*
+import io.ktor.client.request.*
 
 val users = mutableListOf(
     User.newEntry(
@@ -47,6 +51,16 @@ val users = mutableListOf(
     User.newEntry(
         "Lin Shi",
     ))
+
+val client = HttpClient(CIO) {
+    install(Logging) {
+        logger = Logger.DEFAULT
+        level = LogLevel.HEADERS
+    }
+    install(JsonFeature) {
+        serializer = KotlinxSerializer()
+    }
+}
 
 val games = mutableListOf(
     Game.newEntry("Uno", "typical friendship destroying game"),
@@ -127,7 +141,9 @@ fun Application.module() {
         }
         get("/game/{id}") {
             val id = call.parameters.getOrFail<Int>("id").toInt()
-            call.respond(FreeMarkerContent("game.ftl", mapOf("game" to games.find { it.id == id })))
+            val news: NewsResponse = client.get("https://newsapi.org/v2/everything?q=board_games&apiKey=18af37ae1b52421d808c96babcf7db7b")
+            call.respond(FreeMarkerContent("game.ftl", mapOf("game" to games.find { it.id == id }, "news" to news.articles)))
+//            call.respond(FreeMarkerContent("news.ftl", mapOf("news" to news.articles)))
         }
         get("/game/{id}/new") {
             val id = call.parameters.getOrFail<Int>("id").toInt()
