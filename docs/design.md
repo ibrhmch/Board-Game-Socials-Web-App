@@ -19,7 +19,7 @@ Both due to the requirement for the course and it's compatibility to the goal we
 - /game/{game_id}: Display the individual game description and news. 
 
 # API
-- calling NewsAPI for news using https://newsapi.org/v2/everything?q=board_games&apiKey=18af37ae1b52421d808c96babcf7db7b
+- calling NewsAPI for news using https://newsapi.org/v2/everything?q=board_games&apiKey=
 
 ## News Retrieval
 `Collector` will use news service APIs to retrieve news information and submit this into a `queue`.
