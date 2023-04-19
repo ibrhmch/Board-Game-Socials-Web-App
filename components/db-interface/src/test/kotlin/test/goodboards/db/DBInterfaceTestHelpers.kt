@@ -1,6 +1,10 @@
 package test.goodboards.db
 
 import com.goodboards.db.Game
+import io.mockk.every
+import io.mockk.mockk
+import java.sql.PreparedStatement
+import java.sql.ResultSet
 
 class DBInterfaceTestHelpers() {
 
@@ -19,20 +23,19 @@ class DBInterfaceTestHelpers() {
         iterations.add(false)
     }
 
-    fun getGameIds() : List<String> {
-        return ids
+    fun getMockedResultSet() : ResultSet {
+        val mockedResultSet: ResultSet = mockk(relaxed = true)
+        every { mockedResultSet.getString("id") } returnsMany ids
+        every { mockedResultSet.getString("name") } returnsMany names
+        every { mockedResultSet.getString("description") } returnsMany descriptions
+        every { mockedResultSet.next() } returnsMany iterations
+        return mockedResultSet
     }
 
-    fun getGameNames() : List<String> {
-        return names
-    }
-
-    fun getGameDescriptions() : List<String> {
-        return descriptions
-    }
-
-    fun getGameIterations() : List<Boolean> {
-        return iterations
+    fun getPreparedStatement(mockedResultSet: ResultSet) : PreparedStatement {
+        val mockedStatement: PreparedStatement = mockk(relaxed = true)
+        every { mockedStatement.executeQuery() } returns mockedResultSet
+        return mockedStatement
     }
 
 }
