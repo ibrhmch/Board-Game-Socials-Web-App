@@ -68,6 +68,17 @@ fun Application.module() {
             val id = call.parameters.getOrFail<Int>("id").toInt()
             call.respond(FreeMarkerContent("newGame.ftl", mapOf("game" to games.find { it.id == id })))
         }
+        get("/contact") {
+            call.respond(FreeMarkerContent("contact.ftl", mapOf("games" to games)))
+        }
+        get("/games") {
+            call.respond(FreeMarkerContent("games.ftl", mapOf("games" to games)))
+        }
+        get("/game/{id}") {
+            val id = call.parameters.getOrFail<Int>("id").toInt()
+            val news = mutableListOf("temp news placeholder 1", "temp news placeholder 2", "temp news placeholder 3")
+            call.respond(FreeMarkerContent("game.ftl", mapOf("game" to games.find { it.id == id }, "news" to news)))
+        }
 
         static("images") { resources("images") }
         static("style") { resources("style") }
