@@ -41,6 +41,9 @@ val games = mutableListOf(
     Game("Uno", "typical friendship destroying game"),
 )
 
+val sessions = mutableListOf(
+    Session.newEntry("Test1", "gameTest", 5),
+)
 private val logger = LoggerFactory.getLogger("App.kt")
 val client = HttpClient(CIO) {
     install(Logging) {
@@ -59,7 +62,7 @@ fun Application.module() {
         templateLoader = ClassTemplateLoader(this::class.java.classLoader, "templates")
     }
     install(Routing) {
-        get {
+        get ("/"){
             call.respond(FreeMarkerContent("games.ftl", mapOf("games" to games)))
         }
         get("/contact") {
