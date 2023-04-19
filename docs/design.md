@@ -15,7 +15,7 @@ Both due to the requirement for the course and it's compatibility to the goal we
 ## Routes
 - /games: Lists game information and news
 - /contact: Lists Contact information about developers
-- /game/{game_id}: Display the individual game description and news. 
+- /game/{id}: Display the individual game description and news. 
 
 ## API
 - calling NewsAPI for news using https://newsapi.org/v2/everything?q=board_games&apiKey=
