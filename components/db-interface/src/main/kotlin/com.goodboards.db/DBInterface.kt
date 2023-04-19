@@ -1,14 +1,8 @@
 package com.goodboards.db
 
-import java.sql.DriverManager
+class DBInterface(dbConnection: DBConnection) {
 
-object DBInterface {
-
-    private val jdbcUrl = "jdbc:" + System.getenv("DATABASE_URL")
-    private val username = System.getenv("DATABASE_USERNAME")
-    private val password = System.getenv("DATABASE_PASSWORD")
-    private val connection = DriverManager
-        .getConnection(jdbcUrl, username, password)
+    private val connection = dbConnection.getConnection()
 
     fun isConnected() : Boolean {
         return connection.isValid(0)
@@ -27,7 +21,7 @@ object DBInterface {
         return games
     }
 
-    fun getGame(id: String) : Game {
+    fun getGameById(id: String) : Game {
         val statement = "SELECT * FROM goodboards.games WHERE id='$id';"
         val query = connection.prepareStatement(statement)
         val result = query.executeQuery()
