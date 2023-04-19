@@ -172,10 +172,63 @@ class DBInterfaceTest {
         )
     }
 
+    @Test
+    fun testGetGameByName_Exists() {
+        // given -> setup
+        // *** Setup desired game values
+        val games = mutableListOf(
+            Game("1", "Chess", "Classic Chess")
+        )
+        // *** Setup query
+        val helper = DBInterfaceTestHelpers()
+        helper.parseGames(games)
+        val mockedResultSet = helper.getMockedResultSet()
+        val mockedStatement = helper.getPreparedStatement(mockedResultSet)
+        // *** Mock DB Connection
+        val mockedConnection: Connection = mockk(relaxed = true)
+        every { mockedConnection.prepareStatement("SELECT * FROM goodboards.games WHERE name='Chess';") } returns mockedStatement
+        val mockedDBConnection: DBConnection = mockk(relaxed = true)
+        every { mockedDBConnection.getConnection() } returns mockedConnection
+
+        // when -> test action
+        val dbInterface = DBInterface(mockedDBConnection)
+        val result = dbInterface.getGameByName("Chess")
+
+        // then -> verify results
+        assertEquals(games[0], result)
+    }
+
+    @Test
+    fun testGetGameByName_DoesNotExist() {
+        // given -> setup
+        // *** Setup desired game values
+        val games = listOf<Game>()
+        // *** Setup query
+        val helper = DBInterfaceTestHelpers()
+        helper.parseGames(games)
+        val mockedResultSet = helper.getMockedResultSet()
+        val mockedStatement = helper.getPreparedStatement(mockedResultSet)
+        // *** Mock DB Connection
+        val mockedConnection: Connection = mockk(relaxed = true)
+        every { mockedConnection.prepareStatement("SELECT * FROM goodboards.games WHERE name='Chess';") } returns mockedStatement
+        val mockedDBConnection: DBConnection = mockk(relaxed = true)
+        every { mockedDBConnection.getConnection() } returns mockedConnection
+
+        // when -> test action
+        val dbInterface = DBInterface(mockedDBConnection)
+
+        // then -> verify results
+        assertFailsWith<Exception>(
+            block = {
+                dbInterface.getGameByName("Chess")
+            }
+        )
+    }
+    //TODO: Write testcases for deleteGameByID and addGame.
+
+
     /*  Things to Test
-    * - Creating DB Connection --> DBConnectionTest.kt
     * - addGame() -- add 1 game, add 2 games, try to add a game already added?
-    * - getGameByName() -- when game name exists, when game doesn't exist
     * - deleteGameById() -- when successful delete, when incorrect delete
     * */
 
