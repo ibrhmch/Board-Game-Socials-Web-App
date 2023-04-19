@@ -13,7 +13,7 @@
         </div>
         <div>
             <h3>
-                News
+                news
             </h3>
             <hr>
         </div>
