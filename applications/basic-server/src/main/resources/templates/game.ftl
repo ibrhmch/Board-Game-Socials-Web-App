@@ -12,10 +12,7 @@
             </p>
         </div>
         <div>
-            <h3>
-                news
-            </h3>
-            <hr>
+            <#include "news.ftl">
         </div>
         <div>
         news
