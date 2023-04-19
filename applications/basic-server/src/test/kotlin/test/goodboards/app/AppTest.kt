@@ -31,8 +31,8 @@ class AppTest : BaseAppTest() {
     fun singleGame() = testApp {
         handleRequest(HttpMethod.Get, "/game/0").apply {
             assertEquals(200, response.status()?.value)
-            println(response.content)
             // make sure news is part of the game display
+            assertTrue(response.content!!.contains("News"))
             assertTrue(response.content!!.contains("news"))
 
             assertTrue(response.content!!.contains("Contact"))
