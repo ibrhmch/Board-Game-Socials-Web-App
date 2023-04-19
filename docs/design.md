@@ -10,7 +10,7 @@ Both due to the requirement for the course and it's compatibility to the goal we
 ![image](https://user-images.githubusercontent.com/47374005/233217257-43380782-dc3b-491c-a40a-65c0dd1301de.png)
 
 ## Individual Game Page
-![image](https://github.com/CSCI-5828-Foundations-Sftware-Engr/slackers/blob/main/docs/images/game.png)
+![image](images/game.png)
 
 ## Routes
 - /games: Lists game information and news
