@@ -145,10 +145,6 @@ fun Application.module() {
         get("/games") {
             call.respond(FreeMarkerContent("games.ftl", mapOf("games" to games)))
         }
-        get("/game/{id}/new") {
-            val id = call.parameters.getOrFail<Int>("id").toInt()
-            call.respond(FreeMarkerContent("newGame.ftl", mapOf("game" to games.find { it.id == id })))
-        }
 
         static("images") { resources("images") }
         static("style") { resources("style") }
