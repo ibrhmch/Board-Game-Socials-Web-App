@@ -165,3 +165,5 @@ fun main() {
     DatabaseInit.readGameJsonIntoDB("game_info.json");
     embeddedServer(Netty, port, watchPaths = listOf("basic-server"), module = { module() }).start()
 }
+
+}
