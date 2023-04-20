@@ -169,3 +169,5 @@ fun main() {
     }
     embeddedServer(Netty, port, watchPaths = listOf("basic-server"), module = { module() }).start()
 }
+
+}
