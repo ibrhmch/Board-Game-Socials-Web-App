@@ -24,3 +24,13 @@ Both due to the requirement for the course and it's compatibility to the goal we
 `Collector` will use news service APIs to retrieve news information and submit this into a `queue`.
 
 `Analyzer` will collate the news instances from said queue, and persist it in the database with the required relational constraints.
+
+## Database
+We are using a Postgres database. Some key design decisions:
+- Our database is named `goodboards`, and all tables are defined under a single schema `goodboards`.
+- Tables:
+  - `games` - contains all game data. Tracks UUID, name, and description of the game
+  - `news` - contains all news data per game retrieved from the database. Tracks the ID, title, and description of each news article.
+- Only one connection to the database exists at any point. The connection is defined as a Singleton.
+
+Read more [here](database.md).
