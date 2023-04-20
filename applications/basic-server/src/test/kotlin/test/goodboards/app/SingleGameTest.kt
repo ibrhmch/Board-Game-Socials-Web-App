@@ -8,13 +8,14 @@ import kotlin.test.assertEquals
 import kotlin.test.assertTrue
 
 class SingleGameTest : BaseAppTest() {
+    // Testing the single game detail page to ensure that we get a 200 response.
     @Test
     fun testSingleGameResponse() = testApp {
         handleRequest(HttpMethod.Get, "/game/0").apply {
             assertEquals(200, response.status()?.value)
         }
     }
-
+    // Testing the placeholder for game 0: Uno to ensure the correct game name and description is returned. 
     @Test
     fun testGameDetails() = testApp{
         handleRequest ( HttpMethod.Get, "/game/0" ).apply{
