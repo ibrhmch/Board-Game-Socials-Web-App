@@ -23,9 +23,6 @@ import io.ktor.client.features.json.*
 import io.ktor.client.features.json.serializer.*
 import io.ktor.client.features.logging.*
 
-val sessions = mutableListOf(
-    Session.newEntry("Test1", "gameTest", 5),
-)
 private val logger = LoggerFactory.getLogger("App.kt")
 val client = HttpClient(CIO) {
     install(Logging) {
