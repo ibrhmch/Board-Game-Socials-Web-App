@@ -42,7 +42,3 @@ We are using a Postgres database. Some key design decisions:
 - Only one connection to the database exists at any point. The connection is defined as a Singleton.
 
 Read more [here](database.md).
-
-## API
-- Calling NewsAPI for news, using https://newsapi.org/v2/everything?q=board_games&apiKey=. Then the list of news are displayed in Game Detail page.
-- The NewsAPI will be replaced with the Collector and Analyser. 
