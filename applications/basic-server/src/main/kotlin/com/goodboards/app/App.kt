@@ -16,6 +16,7 @@ import io.ktor.util.*
 import io.ktor.util.pipeline.*
 import org.slf4j.LoggerFactory
 import com.goodboards.app.kt.Game
+import com.goodboards.app.kt.News
 import java.util.*
 import io.ktor.client.*
 import io.ktor.client.engine.cio.*
@@ -69,9 +70,8 @@ fun Application.module() {
         }
         get("/game/{id}") {
             val id = call.parameters.getOrFail<Int>("id").toInt()
-//            val news: NewsResponse = client.get("https://newsapi.org/v2/everything?q=board_games&apiKey=18af37ae1b52421d808c96babcf7db7b")
-
-            call.respond(FreeMarkerContent("game.ftl", mapOf("game" to games.find { it.id == id })))
+            val news = mutableListOf("temp news placeholder 1", "temp news placeholder 2", "temp news placeholder 3")
+            call.respond(FreeMarkerContent("game.ftl", mapOf("game" to games.find { it.id == id }, "news" to news)))
         }
         get("/game/{id}/new") {
             val id = call.parameters.getOrFail<Int>("id").toInt()
