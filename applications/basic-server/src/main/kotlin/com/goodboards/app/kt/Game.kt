@@ -1,9 +1,12 @@
 package com.goodboards.app.kt
 import java.util.concurrent.atomic.AtomicInteger
 
-class Game(val id: Int, var name: String, var description: String) {
+class Game(var name: String, var description: String) {
+    val id = getNextId()
     companion object {
         private val idCounter = AtomicInteger()
-        fun newEntry(name: String, description: String) = Game(idCounter.getAndIncrement(), name, description)
+        fun getNextId(): Int{
+            return idCounter.getAndIncrement()
+        }
     }
 }

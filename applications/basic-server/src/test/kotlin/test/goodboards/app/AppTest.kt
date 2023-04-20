@@ -22,19 +22,7 @@ class AppTest : BaseAppTest() {
     @Test
     fun testContactPage() = testApp {
         handleRequest(HttpMethod.Get, "/").apply {
-    fun testEmptyHome() = testApp {
-        handleRequest(HttpMethod.Get, "").apply {
             assertEquals(200, response.status()?.value)
-            assertTrue(response.content!!.contains("GOODBOARDS"))
-        }
-    }
-    @Test
-    fun testContactPage() = testApp {
-        handleRequest(HttpMethod.Get, "/").apply {
-            assertEquals(200, response.status()?.value)
-            // make sure news is part of the game display
-            assertTrue(response.content!!.contains("News"))
-
             assertTrue(response.content!!.contains("Contact"))
         }
     }
