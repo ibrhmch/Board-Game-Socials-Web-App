@@ -30,6 +30,9 @@ Then when clicking on each game, the detail page will appear with the game name,
 
 `Analyzer` will collate the news instances from said queue, and persist it in the database with the required relational constraints.
 
+## News
+- The list of news is a placeholder and will be replaced with the Collector and Analyser. 
+
 ## Database
 We are using a Postgres database. Some key design decisions:
 - Our database is named `goodboards`, and all tables are defined under a single schema `goodboards`.
@@ -39,7 +42,3 @@ We are using a Postgres database. Some key design decisions:
 - Only one connection to the database exists at any point. The connection is defined as a Singleton.
 
 Read more [here](database.md).
-
-## API
-- Calling NewsAPI for news, using https://newsapi.org/v2/everything?q=board_games&apiKey=. Then the list of news are displayed in Game Detail page.
-- The NewsAPI will be replaced with the Collector and Analyser. 
