@@ -1,6 +1,7 @@
 package com.goodboards.app
 
 import com.goodboards.app.database.DatabaseInit
+import com.goodboards.app.kt.*
 import freemarker.cache.ClassTemplateLoader
 import io.ktor.application.*
 import io.ktor.client.*
@@ -15,20 +16,20 @@ import io.ktor.server.netty.*
 import io.ktor.util.*
 import io.ktor.util.pipeline.*
 import org.slf4j.LoggerFactory
-import com.goodboards.app.kt.Game
 import java.util.*
-import io.ktor.client.*
-import io.ktor.client.engine.cio.*
 import io.ktor.client.features.json.*
 import io.ktor.client.features.json.serializer.*
 import io.ktor.client.features.logging.*
-import io.ktor.client.request.*
-import com.goodboards.app.kt.NewsResponse
-import io.ktor.client.features.json.*
-import io.ktor.client.features.json.serializer.*
-import io.ktor.client.features.logging.*
-import io.ktor.client.request.*
-import io.ktor.request.*
+
+
+val playersForSessionOne = mutableListOf(
+    Player(1, "Khaled"),
+    Player(2, "Charles")
+)
+
+val playersForSessionTwo = mutableListOf(
+    Player(1, "Khaled"),
+)
 
 
 val games = mutableListOf(
@@ -39,6 +40,17 @@ val games = mutableListOf(
     Game("Uno", "typical friendship destroying game"),
     Game("Uno", "typical friendship destroying game"),
 )
+
+val sessions = mutableListOf(
+    Session("1", "Khaled's sesh", playersForSessionOne, "1"),
+    Session("2", "Charle' sesh", playersForSessionTwo, "1")
+)
+
+val winLossRecords = mutableListOf(
+    Record("1", 1, 1, "2", "1"),
+    Record("1", 2, 0, "1", "1"),
+)
+
 
 private val logger = LoggerFactory.getLogger("App.kt")
 val client = HttpClient(CIO) {
@@ -80,6 +92,40 @@ fun Application.module() {
         get("/contact") {
             call.respond(FreeMarkerContent("contact.ftl", mapOf("games" to games)))
         }
+
+
+        get("/sessions") {
+            call.respond(FreeMarkerContent("sessions.ftl", mapOf("sessions" to sessions)))
+        }
+
+        get("/sessions/{session_id}") {
+            val session_id = call.parameters.getOrFail<String>("session_id")
+
+            val defaultPlayerData = mutableListOf(PlayerData("1", 0, 0))
+            var sessionData = SessionData("1", "Khaleds sesh", "1", defaultPlayerData)
+
+
+            val players = mutableListOf<PlayerData>()
+
+            // Create Player Data
+            for (record in winLossRecords) {
+                if (record.session_id == session_id) {
+                    var player = PlayerData(record.playerId, record.wins, record.loss)
+                    players.add(player);
+                }
+            }
+
+            // Create Session Data
+            for (session in sessions) {
+                if (session.session_id == session_id) {
+                    sessionData = SessionData(session.session_id , session.sessionName, session.game_id, players);
+                }
+            }
+
+            call.respond(FreeMarkerContent("session.ftl", mapOf("sessionData" to sessionData)))
+        }
+
+
         get("/games") {
             call.respond(FreeMarkerContent("games.ftl", mapOf("games" to games)))
         }
