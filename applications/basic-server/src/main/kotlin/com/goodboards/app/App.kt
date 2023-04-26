@@ -58,7 +58,7 @@ fun Application.module() {
         templateLoader = ClassTemplateLoader(this::class.java.classLoader, "templates")
     }
     install(Routing) {
-        get ("/"){
+        get {
             call.respond(FreeMarkerContent("games.ftl", mapOf("games" to games)))
         }
         get("/contact") {
