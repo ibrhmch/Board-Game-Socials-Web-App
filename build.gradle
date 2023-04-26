@@ -19,7 +19,7 @@ plugins {
 subprojects {
     if (name == "applications" || name == "components") return
 
-    group "com.goodreads"
+    group "com.goodboards"
 
     apply plugin: 'kotlin'
 
@@ -38,6 +38,8 @@ subprojects {
         implementation "ch.qos.logback:logback-classic:1.2.3"
 
         implementation "org.postgresql:postgresql:42.3.1"
+
+        implementation "org.fusesource.jansi:jansi:2.2.0"
 
         testImplementation "io.ktor:ktor-server-test-host:$ktor_version"
         testImplementation group: 'junit', name: 'junit', version: '4.12'
