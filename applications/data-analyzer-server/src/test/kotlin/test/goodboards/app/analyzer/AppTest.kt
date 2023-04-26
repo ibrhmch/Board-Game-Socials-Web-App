@@ -20,7 +20,7 @@ class AppTest {
             assertTrue(response.content!!.contains("hi!"))
         }
     }
-    
+
     private fun testApp(callback: TestApplicationEngine.() -> Unit) {
         withTestApplication({
             mockkObject(AnalyzerNewsTaskHelper)
