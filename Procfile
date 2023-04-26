@@ -1,0 +1,1 @@
+web: java -Dserver.port=$PORT $JAVA_OPTS -jar applications/basic-server/build/libs/basic-server-1.0-SNAPSHOT.jar

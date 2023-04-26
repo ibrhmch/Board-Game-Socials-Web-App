@@ -1,0 +1,33 @@
+version '1.0-SNAPSHOT'
+
+apply plugin: 'application'
+apply plugin: 'kotlin' // or 'kotlin-multiplatform' for multiplatform projects
+apply plugin: 'kotlinx-serialization'
+
+mainClassName = "com.goodboards.app.AppKt"
+
+dependencies {
+    implementation "io.ktor:ktor-freemarker:$ktor_version"
+    implementation "io.ktor:ktor-jackson:$ktor_version"
+    implementation "io.ktor:ktor-client-core:$ktor_version"
+    implementation "io.ktor:ktor-client-cio:$ktor_version"
+    implementation "io.ktor:ktor-client-logging:$ktor_version"
+    implementation "io.ktor:ktor-client-serialization:$ktor_version"
+    implementation project(":components:db-interface")
+}
+
+tasks.withType(Copy).all {
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+}
+
+
+jar {
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+    manifest {
+        attributes "Main-Class": "com.goodboards.app.AppKt"
+    }
+    from {
+        configurations.compileClasspath.collect { it.isDirectory() ? it : zipTree(it) }
+        configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
+    }
+}
