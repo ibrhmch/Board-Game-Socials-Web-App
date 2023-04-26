@@ -16,6 +16,10 @@ import io.ktor.util.*
 import io.ktor.util.pipeline.*
 import org.slf4j.LoggerFactory
 import com.goodboards.app.kt.Game
+<<<<<<< HEAD
+=======
+import com.goodboards.app.kt.News
+>>>>>>> 37a6b0d51e623b7722ff66abb139c00a25a3af2a
 import java.util.*
 import io.ktor.client.*
 import io.ktor.client.engine.cio.*
@@ -30,7 +34,10 @@ import io.ktor.client.features.logging.*
 import io.ktor.client.request.*
 import io.ktor.request.*
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 37a6b0d51e623b7722ff66abb139c00a25a3af2a
 val games = mutableListOf(
     Game("Uno", "typical friendship destroying game"),
     Game("Uno", "typical friendship destroying game"),
@@ -69,6 +76,7 @@ fun Application.module() {
         }
         get("/game/{id}") {
             val id = call.parameters.getOrFail<Int>("id").toInt()
+<<<<<<< HEAD
 //            val news: NewsResponse = client.get("https://newsapi.org/v2/everything?q=board_games&apiKey=18af37ae1b52421d808c96babcf7db7b")
 
             call.respond(FreeMarkerContent("game.ftl", mapOf("game" to games.find { it.id == id })))
@@ -82,6 +90,10 @@ fun Application.module() {
         }
         get("/games") {
             call.respond(FreeMarkerContent("games.ftl", mapOf("games" to games)))
+=======
+            val news = mutableListOf("temp news placeholder 1", "temp news placeholder 2", "temp news placeholder 3")
+            call.respond(FreeMarkerContent("game.ftl", mapOf("game" to games.find { it.id == id }, "news" to news)))
+>>>>>>> 37a6b0d51e623b7722ff66abb139c00a25a3af2a
         }
 
         static("images") { resources("images") }
