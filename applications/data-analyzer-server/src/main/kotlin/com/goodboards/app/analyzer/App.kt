@@ -1,7 +1,6 @@
 package com.goodboards.app.analyzer
 
-import com.goodboards.app.analyzer.tasks.AnalyzerNewsTaskHelper
-import com.goodboards.workflow.WorkScheduler
+import com.goodreads.workflow.WorkScheduler
 import io.ktor.application.*
 import io.ktor.features.*
 import io.ktor.http.*
@@ -19,9 +18,8 @@ fun Application.module() {
             call.respondText("hi!", ContentType.Text.Html)
         }
     }
-    AnalyzerNewsTaskHelper.scheduleAnalyzerNewsTask()
-
-
+    val scheduler = WorkScheduler<ExampleTask>(ExampleWorkFinder(), mutableListOf(ExampleWorker()), 30)
+    scheduler.start()
 }
 
 fun main() {
