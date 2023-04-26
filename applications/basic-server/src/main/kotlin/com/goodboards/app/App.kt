@@ -16,6 +16,7 @@ import io.ktor.util.*
 import io.ktor.util.pipeline.*
 import org.slf4j.LoggerFactory
 import com.goodboards.app.kt.Game
+import com.goodboards.app.kt.News
 import java.util.*
 import io.ktor.client.*
 import io.ktor.client.engine.cio.*
@@ -59,10 +60,6 @@ fun Application.module() {
     install(Routing) {
         get ("/"){
             call.respond(FreeMarkerContent("games.ftl", mapOf("games" to games)))
-        }
-        get("/game/{id}/new") {
-            val id = call.parameters.getOrFail<Int>("id").toInt()
-            call.respond(FreeMarkerContent("newGame.ftl", mapOf("game" to games.find { it.id == id })))
         }
         get("/contact") {
             call.respond(FreeMarkerContent("contact.ftl", mapOf("games" to games)))
