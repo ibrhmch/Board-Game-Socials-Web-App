@@ -21,7 +21,6 @@ import io.ktor.client.features.json.*
 import io.ktor.client.features.json.serializer.*
 import io.ktor.client.features.logging.*
 import io.ktor.request.*
-import io.ktor.sessions.*
 
 val allPlayers = mutableListOf(
     Player(1, "khaled"),
