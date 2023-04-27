@@ -23,9 +23,9 @@ object DBHelper {
         }
 
         fun getDatabaseCredentials() : DatabaseInit.DatabaseCredential {
-            val DB_URL: String = SystemWrapper.getenv("DATABASE_URL")
-            val DB_USENAME : String =  SystemWrapper.getenv("DATABASE_USERNAME")
-            val DB_PASSWORD : String = SystemWrapper.getenv("DATABASE_PASSWORD")
+            val DB_URL: String = "postgresql://localhost:5432/goodboards"
+            val DB_USENAME : String =  "postgres"
+            val DB_PASSWORD : String = "asdfASDFasdf1!"
             return DatabaseInit.DatabaseCredential(DB_URL, DB_USENAME, DB_PASSWORD)
         }
 }

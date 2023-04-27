@@ -2,7 +2,10 @@ package com.goodboards.app
 
 import com.goodboards.app.database.DatabaseInit
 import com.goodboards.app.game.Game
+import com.goodboards.app.game.GamesHelper
+import com.goodboards.app.gameNews.GameNews
 import com.goodboards.app.kt.*
+import com.goodboards.app.news.NewsHelper
 import freemarker.cache.ClassTemplateLoader
 import io.ktor.application.*
 import io.ktor.client.*
@@ -39,8 +42,8 @@ val playersForSessionTwo = mutableListOf(
 )
 
 val games = mutableListOf(
-    Game("Uno", "typical friendship destroying game"),
-    Game("Chess", "Chess game description"),
+    Game("1","Uno", "typical friendship destroying game"),
+    Game("2","Chess", "Chess game description"),
 )
 
 val playerGameOptions = PlayerGameOptions(allPlayers, games);
@@ -89,8 +92,11 @@ fun Application.module() {
         get("/game/{id}") {
             val id = call.parameters.getOrFail<String>("id")
 //            val news: NewsResponse = client.get("https://newsapi.org/v2/everything?q=board_games&apiKey=18af37ae1b52421d808c96babcf7db7b")
+            val game = GamesHelper.getAllGames().find { it.id == id }
+            val mockNewsData = game?.let { it1 -> NewsHelper.getNewsForGame(it1.name) }
+            val gameNewsData = mockNewsData?.let { it1 -> GameNews(game.id, game.name, game.description, it1) }
 
-            call.respond(FreeMarkerContent("game.ftl", mapOf("game" to GamesHelper.getAllGames().find { it.id == id })))
+            call.respond(FreeMarkerContent("game.ftl", mapOf("gameNewsData" to gameNewsData)))
         }
         get("/game/{id}/new") {
             val id = call.parameters.getOrFail<String>("id")
