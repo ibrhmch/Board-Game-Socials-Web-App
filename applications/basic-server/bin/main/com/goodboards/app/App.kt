@@ -1,7 +1,6 @@
 package com.goodboards.app
 
 import com.goodboards.app.database.DatabaseInit
-import com.goodboards.app.game.Game
 import com.goodboards.app.kt.*
 import freemarker.cache.ClassTemplateLoader
 import io.ktor.application.*
@@ -17,11 +16,19 @@ import io.ktor.server.netty.*
 import io.ktor.util.*
 import io.ktor.util.pipeline.*
 import org.slf4j.LoggerFactory
+<<<<<<< HEAD
+=======
+import com.goodboards.app.game.Game
+import com.goodboards.app.game.GamesHelper
+>>>>>>> origin/task/games_integration
 import java.util.*
 import io.ktor.client.features.json.*
 import io.ktor.client.features.json.serializer.*
 import io.ktor.client.features.logging.*
+<<<<<<< HEAD
 import io.ktor.request.*
+=======
+>>>>>>> origin/task/games_integration
 
 val allPlayers = mutableListOf(
     Player(1, "khaled"),
@@ -38,10 +45,21 @@ val playersForSessionTwo = mutableListOf(
     Player(2, "Charles"),
 )
 
+<<<<<<< HEAD
 val games = mutableListOf(
     Game("Uno", "typical friendship destroying game"),
     Game("Chess", "Chess game description"),
 )
+=======
+//val games = mutableListOf(
+//    Game("Uno", "typical friendship destroying game"),
+//    Game("Uno", "typical friendship destroying game"),
+//    Game("Uno", "typical friendship destroying game"),
+//    Game("Uno", "typical friendship destroying game"),
+//    Game("Uno", "typical friendship destroying game"),
+//    Game("Uno", "typical friendship destroying game"),
+//)
+>>>>>>> origin/task/games_integration
 
 val playerGameOptions = PlayerGameOptions(allPlayers, games);
 

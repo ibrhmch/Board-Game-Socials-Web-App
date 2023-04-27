@@ -64,4 +64,9 @@ subprojects {
                 test.enabled = false
             }
     }
+
+    task testJar(type: Jar, dependsOn: testClasses) {
+        baseName = "test-${project.archivesBaseName}"
+        from sourceSets.test.output
+    }
 }
