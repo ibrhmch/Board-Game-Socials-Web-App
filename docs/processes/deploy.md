@@ -9,6 +9,7 @@
 ## Deploy to production
 1. We only deploy what has been deployed in staging and *tested* manually
 2. It needs to pass the integration tests on staging.
+   Check [integration-tests](integration-tests.md) for more information.
 3. You can use the `promote` option to promote such a version to production
 
 ## Database initialization
