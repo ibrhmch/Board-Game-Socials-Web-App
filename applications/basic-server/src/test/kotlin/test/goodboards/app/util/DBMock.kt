@@ -2,6 +2,7 @@ package test.goodboards.app.util
 
 import com.goodboards.app.database.DBHelper
 import com.goodboards.db.News
+
 import com.goodboards.db.DBInterface
 import com.goodboards.db.DriverManagerWrapper
 import com.goodboards.db.Game
@@ -12,11 +13,17 @@ import io.mockk.mockkObject
 import java.sql.Connection
 
 object DBMock {
+
+    val VALUE_DATABASE_URL = "fakeURL"
+    val VALUE_DATABASE_USERNAME = "fakeUsername"
+    val VALUE_DATABASE_PASSWORD = "fakePassword"
+
     fun mockDBConnection(): Unit {
         mockkObject(SystemWrapper)
-        every { SystemWrapper.getenv("DATABASE_URL") } returns "fakeURL"
-        every { SystemWrapper.getenv("DATABASE_USERNAME") } returns "fakeUsername"
-        every { SystemWrapper.getenv("DATABASE_PASSWORD") } returns "fakePassword"
+//        every { SystemWrapper.getenv("JDBC_DATABASE_URL") } returns VALUE_DATABASE_URL
+        every { SystemWrapper.getenv("DATABASE_URL") } returns VALUE_DATABASE_URL
+        every { SystemWrapper.getenv("DATABASE_USERNAME") } returns VALUE_DATABASE_USERNAME
+        every { SystemWrapper.getenv("DATABASE_PASSWORD") } returns VALUE_DATABASE_PASSWORD
         val mockedConnection: Connection = mockk(relaxed = true)
         mockkObject(DriverManagerWrapper)
         every {

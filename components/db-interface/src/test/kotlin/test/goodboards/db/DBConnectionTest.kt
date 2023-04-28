@@ -6,6 +6,7 @@ import com.goodboards.db.SystemWrapper
 import org.junit.Test
 import kotlin.test.*
 import io.mockk.*
+import test.goodboards.db.util.DBMockUtil
 import java.sql.Connection
 
 class DBConnectionTest {

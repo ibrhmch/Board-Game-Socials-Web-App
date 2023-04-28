@@ -1,20 +1,24 @@
 package test.goodboards.app.database
 
-import com.goodboards.app.database.ConnectionHelper
+import com.goodboards.app.database.DBHelper
 import com.goodboards.app.database.DatabaseInit
 import com.goodboards.app.database.UUIDHelper
 import com.goodboards.app.util.EnvHelper
 import io.mockk.*
 import org.junit.Test
+import test.goodboards.app.util.DBMock
+import test.goodboards.app.util.MockUtil
 import java.sql.Connection
 import java.sql.PreparedStatement
 import java.sql.Statement
 import java.util.*
+import kotlin.test.BeforeTest
 import kotlin.test.assertEquals
 
 
 
 class DatabaseInitTest {
+
     companion object {
         private const val ENV_DATABASE_URL = "DATABASE_URL"
         private const val ENV_DATABASE_USERNAME = "DATABASE_USERNAME"
@@ -39,10 +43,8 @@ class DatabaseInitTest {
         }
 
 
-        fun mockDBConnection(): PreparedStatement{
-            val connection = mockk<Connection>()
-            mockkObject(ConnectionHelper)
-            every{ ConnectionHelper.getConnection() } returns connection
+        fun mockGamesInit(): PreparedStatement{
+            val connection =  MockUtil.mockDBConnection()
             val statement = mockk<Statement>()
             every{ connection.createStatement() } returns statement
             val preparedStatement = mockk<PreparedStatement>()
@@ -57,20 +59,20 @@ class DatabaseInitTest {
         }
 
     }
-//    @Test
-//    fun testGetsCredential() {
-//        mockEnvironmentCredentials()
-//        val actualCredential = DatabaseInit.getDatabaseCredentials()
-//        assertEquals(DATABASE_URL, actualCredential.url)
-//        assertEquals(DATABASE_USERNAME, actualCredential.username)
-//        assertEquals(DATABASE_PASSWORD, actualCredential.password)
-//    }
+    @Test
+    fun testGetsCredential() {
+        DBMock.mockDBConnection()
+        val actualCredential = DBHelper.getDatabaseCredentials()
+        assertEquals(DBMock.VALUE_DATABASE_URL, actualCredential.url)
+        assertEquals(DBMock.VALUE_DATABASE_USERNAME, actualCredential.username)
+        assertEquals(DBMock.VALUE_DATABASE_PASSWORD, actualCredential.password)
+    }
 
     @Test
     fun testReadGameJsonIntoDBSuccess(){
-        mockEnvironmentCredentials()
+        MockUtil.mockEnvironmentCredentials()
         mockUUID()
-        val preparedStatement = mockDBConnection()
+        val preparedStatement = mockGamesInit()
         DatabaseInit.readGameJsonIntoDB("game_info_test.json")
         verify(exactly = 3) { preparedStatement.executeUpdate() }
     }

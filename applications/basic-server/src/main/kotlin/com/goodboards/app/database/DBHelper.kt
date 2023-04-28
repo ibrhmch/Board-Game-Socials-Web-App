@@ -4,6 +4,7 @@ import com.goodboards.db.DBConnection
 import com.goodboards.db.DBInterface
 import com.goodboards.db.SystemWrapper
 
+// TODO refactor DB Connection management
 object DBHelper {
 
         var dbInterface : DBInterface? = null
@@ -23,6 +24,7 @@ object DBHelper {
         }
 
         fun getDatabaseCredentials() : DatabaseInit.DatabaseCredential {
+//            val DB_URL: String = SystemWrapper.getenv("JDBC_DATABASE_URL")
             val DB_URL: String = SystemWrapper.getenv("DATABASE_URL")
             val DB_USENAME : String =  SystemWrapper.getenv("DATABASE_USERNAME")
             val DB_PASSWORD : String = SystemWrapper.getenv("DATABASE_PASSWORD")

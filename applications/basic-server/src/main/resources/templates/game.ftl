@@ -2,11 +2,11 @@
 <#import "_layout.ftl" as layout />
 <@layout.header>
     <div>
-        <h1 class="text-4xl text-center mb-4 text-[#cdc9cb]">
+        <h1 class="game-name text-4xl text-center mb-4 text-[#cdc9cb]">
             ${gameNewsData.name}
         </h1>
         <hr>
-        <div class="mb-4 text-[#cdc9cb] px-4 py-5">
+        <div class="game-description mb-4 text-[#cdc9cb] px-4 py-5">
             <p>
                 ${gameNewsData.description}
             </p>
@@ -30,8 +30,7 @@
                             <tbody>
                             <#list gameNewsData.news as n>
 
-                                <tr
-                                        class="border-b transition duration-300 ease-in-out hover:bg-[#cdc9cb] dark:border-neutral-500 dark:hover:bg-neutral-600">
+                                <tr id="table-news" class="border-b transition duration-300 ease-in-out hover:bg-[#cdc9cb] dark:border-neutral-500 dark:hover:bg-neutral-600">
                                     <td class="whitespace-nowrap px-6 py-4 font-medium"><a href=${n.url} target="_blank" class="font-medium hover:underline">${n.title}</a></td>
                                     <td class="whitespace-nowrap px-6 py-4 font-medium">${n.description}</td>
 
@@ -43,6 +42,5 @@
                 </div>
             </div>
         </div>
-
     </div>
 </@layout.header>
