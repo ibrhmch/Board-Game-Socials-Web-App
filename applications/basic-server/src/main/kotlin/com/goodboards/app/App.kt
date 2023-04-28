@@ -91,11 +91,9 @@ fun Application.module() {
 
         get("/game/{id}") {
             val id = call.parameters.getOrFail<String>("id")
-//            val news: NewsResponse = client.get("https://newsapi.org/v2/everything?q=board_games&apiKey=18af37ae1b52421d808c96babcf7db7b")
             val game = GamesHelper.getAllGames().find { it.id == id }
             val mockNewsData = game?.let { it1 -> NewsHelper.getNewsForGame(it1.name) }
-            val gameNewsData = mockNewsData?.let { it1 -> GameNews(game.id, game.name, game.description, it1) }
-
+            val gameNewsData = game?.let { it1 -> GameNews(id, game.name, it1.description, mockNewsData!!) }
             call.respond(FreeMarkerContent("game.ftl", mapOf("gameNewsData" to gameNewsData)))
         }
         get("/game/{id}/new") {
