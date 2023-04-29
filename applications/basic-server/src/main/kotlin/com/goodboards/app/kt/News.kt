@@ -1,6 +1,7 @@
 package com.goodboards.app.kt
 
 import kotlinx.serialization.Serializable
+import java.util.concurrent.atomic.AtomicInteger
 
 @Serializable
 data class Articles(
@@ -22,5 +23,12 @@ data class Source(
 @Serializable
 data class NewsResponse(val status: String, val totalResults: Int, val articles: List<Articles>)
 
-class News
-private constructor(articles: List<Articles>?)
+class News(var title: String, var description: String, var link: String){
+    val id = getNextId()
+    companion object{
+        private val idCounter = AtomicInteger()
+        fun getNextId(): Int{
+            return idCounter.getAndIncrement()
+        }
+    }
+}
