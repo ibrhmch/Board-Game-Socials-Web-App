@@ -16,21 +16,13 @@ import io.ktor.util.*
 import io.ktor.util.pipeline.*
 import org.slf4j.LoggerFactory
 import com.goodboards.app.game.Game
+import com.goodboards.app.game.GameNews
 import com.goodboards.app.game.GamesHelper
+import com.goodboards.app.news.NewsHelper
 import java.util.*
 import io.ktor.client.features.json.*
 import io.ktor.client.features.json.serializer.*
 import io.ktor.client.features.logging.*
-
-
-//val games = mutableListOf(
-//    Game("Uno", "typical friendship destroying game"),
-//    Game("Uno", "typical friendship destroying game"),
-//    Game("Uno", "typical friendship destroying game"),
-//    Game("Uno", "typical friendship destroying game"),
-//    Game("Uno", "typical friendship destroying game"),
-//    Game("Uno", "typical friendship destroying game"),
-//)
 
 private val logger = LoggerFactory.getLogger("App.kt")
 val client = HttpClient(CIO) {
@@ -51,7 +43,7 @@ fun Application.module() {
     }
     install(Routing) {
         get {
-            call.respond(FreeMarkerContent("games.ftl", mapOf("games" to GamesHelper.getAllGames())))
+            call.respond(FreeMarkerContent("games/games.ftl", mapOf("games" to GamesHelper.getAllGames())))
         }
         get("/contact") {
             call.respond(FreeMarkerContent("contact.ftl", mapOf("games" to GamesHelper.getAllGames())))
@@ -59,17 +51,20 @@ fun Application.module() {
 
         get("/game/{id}") {
             val id = call.parameters.getOrFail<String>("id")
-            call.respond(FreeMarkerContent("game.ftl", mapOf("game" to GamesHelper.getAllGames().find { it.id == id })))
+            val game = GamesHelper.getGameById(id)
+            val mockNewsData = game.let { it1 -> NewsHelper.getNewsForGame(it1.name) }
+            val gameNewsData = GameNews(id, game.name, game.description, mockNewsData)
+            call.respond(FreeMarkerContent("games/game.ftl", mapOf("gameNewsData" to gameNewsData)))
         }
         get("/game/{id}/new") {
             val id = call.parameters.getOrFail<String>("id")
-            call.respond(FreeMarkerContent("newGame.ftl", mapOf("game" to GamesHelper.getAllGames().find { it.id == id })))
+            call.respond(FreeMarkerContent("games/newGame.ftl", mapOf("game" to GamesHelper.getAllGames().find { it.id == id })))
         }
         get("/contact") {
             call.respond(FreeMarkerContent("contact.ftl", mapOf("games" to GamesHelper.getAllGames())))
         }
         get("/games") {
-            call.respond(FreeMarkerContent("games.ftl", mapOf("games" to GamesHelper.getAllGames())))
+            call.respond(FreeMarkerContent("games/games.ftl", mapOf("games" to GamesHelper.getAllGames())))
         }
 
         static("images") { resources("images") }
