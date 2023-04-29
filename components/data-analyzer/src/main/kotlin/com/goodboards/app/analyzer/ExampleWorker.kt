@@ -1,19 +1,73 @@
 package com.goodboards.app.analyzer
 
+import com.goodboards.db.News
 import com.goodboards.workflow.Worker
 import kotlinx.coroutines.runBlocking
 import org.slf4j.LoggerFactory
+import java.sql.Connection
+import java.sql.DriverManager
+import java.util.*
+
+object ConnectionHelper{
+    fun getConnection(): Connection {
+        val databaseCredential = DatabaseInit.getDatabaseCredentials()
+        return DriverManager.getConnection("jdbc:" + databaseCredential.url, databaseCredential.username, databaseCredential.password)
+    }
+}
+object DatabaseInit{
+    const val NEWS_TABLE_NAME: String = "goodboards.news"
+    data class DatabaseCredential(val url: String, val username:String, val password: String)
+    fun getDatabaseCredentials() : DatabaseCredential  {
+        val DB_URL: String = EnvHelper.getEnv("DATABASE_URL")
+        val DB_USENAME : String =  EnvHelper.getEnv("DATABASE_USERNAME")
+        val DB_PASSWORD : String = EnvHelper.getEnv("DATABASE_PASSWORD")
+        return DatabaseCredential(DB_URL, DB_USENAME, DB_PASSWORD)
+    }
+    fun getInsertNewsStatement(id: String, news: News): String {
+        return "INSERT INTO $NEWS_TABLE_NAME(id, gameId, title, description, url) VALUES ('${id}', '${news.gameId}', '${news.title}', '${news.description}', '${news.url}');"
+    }
+}
+
+object EnvHelper {
+    fun getEnv(key: String): String = System.getenv(key)!!
+}
+
+object UUIDHelper{
+    fun randomUUID(): UUID = UUID.randomUUID()!!
+}
 
 class ExampleWorker(override val name: String = "data-analyzer") : Worker<ExampleTask> {
     private val logger = LoggerFactory.getLogger(this.javaClass)
+
+    val tempQueue: Queue<News> = LinkedList<News>(
+        listOf(
+            News("id1", "gameId1", "title1", "description1", "link1"),
+            News("id1", "gameId2", "title2", "description1", "link1")
+        )
+    )
 
     override fun execute(task: ExampleTask) {
         runBlocking {
             logger.info("starting data analysis.")
 
             // todo - data analysis happens here
+            val conn = ConnectionHelper.getConnection()!!
 
-            logger.info("completed data analysis.")
+            for (news in tempQueue) {
+                val query = conn.prepareStatement("SELECT * FROM ${DatabaseInit.NEWS_TABLE_NAME} where title = '${news.title}';")
+                val result = query.executeQuery()
+                if (!result.next()) {
+                    val newsInsertStatement =
+                        DatabaseInit.getInsertNewsStatement(UUIDHelper.randomUUID().toString(), news)
+
+                    conn.createStatement().use {
+                        val preparedStatement = conn.prepareStatement(newsInsertStatement)
+                        preparedStatement.executeUpdate()
+                        preparedStatement.close()
+                    }
+                }
+                logger.info("completed data analysis.")
+            }
         }
     }
 }
