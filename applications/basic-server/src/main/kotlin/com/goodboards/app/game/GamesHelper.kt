@@ -11,5 +11,10 @@ class GamesHelper {
             return dbGames.map { dbgame-> Game(dbgame.uuid, dbgame.name, dbgame.description) }
 
         }
+
+        fun getGameById(id: String): Game {
+            val dbgame = DBHelper.getDBInterface().getGameById(id);
+            return Game(dbgame.uuid, dbgame.name, dbgame.description)
+        }
     }
 }

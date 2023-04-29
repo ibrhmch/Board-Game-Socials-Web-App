@@ -6,7 +6,7 @@
     <a
       class="text-white"
       href="/"
-      >GOODBOARDS</a
+      >Team Slackers</a
     >
   </div>
 </footer>
