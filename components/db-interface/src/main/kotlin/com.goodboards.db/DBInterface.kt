@@ -75,7 +75,7 @@ class DBInterface(dbConnection: DBConnection) {
         val news = mutableListOf<News>()
         while(result.next()){
             val id = result.getString("id")
-            val gameId = result.getString("gameId")
+            val gameId = result.getString("gameid")
             val name = result.getString("title")
             val description = result.getString("description")
             val url = result.getString("url")
