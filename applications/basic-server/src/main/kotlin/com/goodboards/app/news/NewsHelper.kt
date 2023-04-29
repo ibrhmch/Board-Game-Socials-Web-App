@@ -8,7 +8,6 @@ class NewsHelper {
         fun getNewsForGame(gameName: String): List<News> {
             val dbNews = DBHelper.getDBInterface().getNewsForGame(gameName)
             return dbNews.map { dbnews-> News(dbnews.uuid, dbnews.title, dbnews.url, dbnews.description) }
-
         }
     }
 }
