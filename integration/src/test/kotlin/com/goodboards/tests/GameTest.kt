@@ -27,15 +27,23 @@ class GameTest {
 
         fun checkGame(body: Element) {
             assertTrue(body.select("div.game").isNotEmpty())
-            assertTrue(body.select("div.game-name").isNotEmpty())
-            assertTrue(body.select("div.game-name").text().contains(GAME_NAME))
+            assertTrue(body.select("h1.game-name").isNotEmpty())
+            assertTrue(body.select("h1.game-name").text().contains(GAME_NAME))
             assertTrue(body.select("div.game-description").isNotEmpty())
             assertTrue(body.select("div.game-description").text().contains(GAME_DESCRIPTION))
+        }
+
+        fun checkNews(body: Element) {
+            assertTrue(body.select("h3.news-header").isNotEmpty())
+            assertTrue(body.select("news-rows").isNotEmpty())
+            assertTrue(body.select("news-rows").select("a").isNotEmpty())
+            assertTrue(body.select("div.news-title").size == 2)
+            assertTrue(body.select("p.news-description").size == 2)
         }
     }
 
     @Test
-    fun `get game makes game page`(): Unit = runBlocking {
+    fun `get game page`(): Unit = runBlocking {
         val response = ClientUtil.getClient().get(urlString = getGamePagePath(GAME_ID))
         assertTrue(response.status == HttpStatusCode.OK)
         val htmlResponse = Jsoup.parse(response.bodyAsText())
@@ -45,5 +53,17 @@ class GameTest {
         TemplateUtil.checkNavBar(htmlResponse.body())
         // Check for Game things.
         checkGame(htmlResponse.body())
+    }
+
+    @Test
+    fun `get game page has news`(): Unit = runBlocking {
+        val response = ClientUtil.getClient().get(urlString = getGamePagePath(GAME_ID))
+        assertTrue(response.status == HttpStatusCode.OK)
+        val htmlResponse = Jsoup.parse(response.bodyAsText())
+        assertNotNull(htmlResponse.head())
+        TemplateUtil.checkHead(htmlResponse.head())
+        assertNotNull(htmlResponse.body())
+        TemplateUtil.checkNavBar(htmlResponse.body())
+        checkNews(htmlResponse.body())
     }
 }
