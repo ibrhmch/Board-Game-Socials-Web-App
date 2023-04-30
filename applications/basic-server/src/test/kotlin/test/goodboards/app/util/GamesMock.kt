@@ -17,7 +17,7 @@ object GamesMock {
         return games
     }
 
-    fun mockSingleGame(): Game {
+    fun mockGame(): Game {
         val game = Game("1", "name", "desc")
         mockkObject(GamesHelper)
         every { GamesHelper.getGameById("1") }  returns game

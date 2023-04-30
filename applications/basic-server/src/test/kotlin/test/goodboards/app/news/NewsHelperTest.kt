@@ -6,7 +6,6 @@ import io.mockk.every
 import io.mockk.verify
 import org.junit.Test
 import test.goodboards.app.util.DBMock
-import kotlin.test.assertEquals
 import kotlin.test.assertTrue
 
 class NewsHelperTest {
@@ -14,7 +13,7 @@ class NewsHelperTest {
     fun testGetNewsForGame() {
         DBMock.mockDBConnection()
         val dbInterface = DBMock.mockDBInterface()
-        val dbNews = DBMock.mockNews()
+        val dbNews = DBMock.makeGames()
         every { dbInterface.getNewsForGame("Uno") } returns dbNews
         val news: List<News> = NewsHelper.getNewsForGame("Uno");
         verify (exactly = 1) { dbInterface.getNewsForGame("Uno") }
