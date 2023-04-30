@@ -18,7 +18,7 @@
             <div class="overflow-x-auto sm:-mx-6 lg:-mx-8">
                 <#list gameNewsData.news as n>
                     <div class="flex items-center justify-center">
-                        <div class=" inline-block min-w-[50rem] rounded-lg mx-[5rem] py-2 m-3">
+                        <div class="news-entry inline-block min-w-[50rem] rounded-lg mx-[5rem] py-2 m-3">
                             <a href=${n.url} target="_blank">
                                 <div class="border-r border-b border-l border-gray-400 lg:border-l-0 lg:border-t lg:border-gray-400 bg-white rounded-b lg:rounded-b-none lg:rounded-r p-4 flex flex-col justify-between leading-normal">
                                     <div class="name-entry mb-8">

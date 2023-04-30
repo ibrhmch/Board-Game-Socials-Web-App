@@ -35,8 +35,7 @@ class GameTest {
 
         fun checkNews(body: Element) {
             assertTrue(body.select("h3.news-header").isNotEmpty())
-            assertTrue(body.select("news-rows").isNotEmpty())
-            assertTrue(body.select("news-rows").select("a").isNotEmpty())
+            assertTrue(body.select("news-entry").select("a").isNotEmpty())
             assertTrue(body.select("div.news-title").size == 2)
             assertTrue(body.select("p.news-description").size == 2)
         }
