@@ -26,6 +26,18 @@ object DatabaseInit{
     fun getInsertNewsStatement(id: String, news: NewsUnit): String {
         return "INSERT INTO $NEWS_TABLE_NAME(id, gameId, title, description, url) VALUES ('${id}', '${news.gameID}', '${news.title}', '${news.description}', '${news.url}');"
     }
+
+    fun setDoubleApostrophe(str: String): String{
+        var temp = ""
+        for(character in str.iterator()){
+            if(character == '\''){
+                temp = temp + character.toString() + character.toString()
+            }else {
+                temp += character.toString()
+            }
+        }
+        return temp
+    }
 }
 
 object EnvHelper {
@@ -45,29 +57,25 @@ class ExampleWorker(override val name: String = "data-analyzer") : Worker<Exampl
 
             // todo - data analysis happens here
             val conn = ConnectionHelper.getConnection()!!
-            println("connection was correct")
-            val gameList = GamesHelper.getAllGames()
             val redisInterface = RedisInterface()
-            for(game in gameList) {
-                val redisQueue = redisInterface.getFromList(game.id, 10)
-
-                for (item in redisQueue) {
-                    val newsItem = Json.decodeFromString<NewsUnit>(item)
-                    val query =
-                        conn.prepareStatement("SELECT * FROM ${DatabaseInit.NEWS_TABLE_NAME} where title = '${newsItem.title}';")
-                    val result = query.executeQuery()
-                    if (!result.next()) {
-                        val newsInsertStatement =
-                            DatabaseInit.getInsertNewsStatement(UUIDHelper.randomUUID().toString(), newsItem)
-
-                        conn.createStatement().use {
-                            val preparedStatement = conn.prepareStatement(newsInsertStatement)
-                            preparedStatement.executeUpdate()
-                            preparedStatement.close()
-                        }
+            val redisQueue = redisInterface.getFromList(key = "news:collect-analyze", 10)
+            for (item in redisQueue) {
+                var newsItem = Json.decodeFromString<NewsUnit>(item)
+                newsItem.title = DatabaseInit.setDoubleApostrophe(newsItem.title)
+                newsItem.description = DatabaseInit.setDoubleApostrophe(newsItem.description)
+                val query =
+                    conn.prepareStatement("SELECT * FROM ${DatabaseInit.NEWS_TABLE_NAME} where title = '${newsItem.title}';")
+                val result = query.executeQuery()
+                if (!result.next()) {
+                    val newsInsertStatement =
+                        DatabaseInit.getInsertNewsStatement(UUIDHelper.randomUUID().toString(), newsItem)
+                    conn.createStatement().use {
+                        val preparedStatement = conn.prepareStatement(newsInsertStatement)
+                        preparedStatement.executeUpdate()
+                        preparedStatement.close()
                     }
-                    logger.info("completed data analysis.")
                 }
+                logger.info("completed data analysis.")
             }
         }
     }

@@ -2,11 +2,7 @@ package com.goodboards.app.analyzer
 
 import kotlinx.serialization.Serializable
 
-class News(val id: String, val gameId: String, val title: String, val description: String, val url:String)
-
+@Suppress("PROVIDED_RUNTIME_TOO_LOW")
 @Serializable
-data class NewsUnit(val gameID: String,
-                    val title: String,
-                    val description: String,
-                    val url: String)
+data class NewsUnit(val gameID: String, var title: String, var description: String, val url: String)
 
