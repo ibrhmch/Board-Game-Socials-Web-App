@@ -43,7 +43,8 @@ fun Application.module() {
     }
     install(Routing) {
         get {
-            call.respond(FreeMarkerContent("games/games.ftl", mapOf("games" to GamesHelper.getAllGames())))
+            val games = GamesHelper.getAllGames()
+            call.respond(FreeMarkerContent("games/games.ftl", mapOf("games" to games)))
         }
         get("/contact") {
             call.respond(FreeMarkerContent("contact.ftl", mapOf("games" to GamesHelper.getAllGames())))
@@ -52,7 +53,7 @@ fun Application.module() {
         get("/game/{id}") {
             val id = call.parameters.getOrFail<String>("id")
             val game = GamesHelper.getGameById(id)
-            val mockNewsData = game.let { it1 -> NewsHelper.getNewsForGame(it1.name) }
+            val mockNewsData = NewsHelper.getNewsForGame(game.name)
             val gameNewsData = GameNews(id, game.name, game.description, mockNewsData)
             call.respond(FreeMarkerContent("games/game.ftl", mapOf("gameNewsData" to gameNewsData)))
         }
@@ -64,7 +65,8 @@ fun Application.module() {
             call.respond(FreeMarkerContent("contact.ftl", mapOf("games" to GamesHelper.getAllGames())))
         }
         get("/games") {
-            call.respond(FreeMarkerContent("games/games.ftl", mapOf("games" to GamesHelper.getAllGames())))
+            val games = GamesHelper.getAllGames()
+            call.respond(FreeMarkerContent("games/games.ftl", mapOf("games" to games)))
         }
 
         static("images") { resources("images") }

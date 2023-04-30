@@ -16,4 +16,11 @@ object GamesMock {
         every { GamesHelper.getAllGames() }  returns games
         return games
     }
+
+    fun mockSingleGame(): Game {
+        val game = Game("1", "name", "desc")
+        mockkObject(GamesHelper)
+        every { GamesHelper.getGameById("1") }  returns game
+        return game
+    }
 }
