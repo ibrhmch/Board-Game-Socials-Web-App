@@ -14,30 +14,22 @@
         <h3 class="text-center text-[#cdc9cb] font-bold text-2xl p-4">
             Recent News
         </h3>
-        <div class="flex flex-col">
+        <div class="flex flex-col flex items-center justify-center">
             <div class="overflow-x-auto sm:-mx-6 lg:-mx-8">
-                <div class="inline-block min-w-full py-2 sm:px-6 lg:px-8">
-                    <div class="overflow-hidden">
-                        <table class="min-w-full text-center text-sm font-light">
-                            <thead class="border-b font-medium dark:border-neutral-500">
-                            <tr>
-                                <th scope="col" class="px-6 py-4">News</th>
-                                <th scope="col" class="px-6 py-4">Description</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <#list gameNewsData.news as n>
-
-                                <tr id="table-news" class="border-b transition duration-300 ease-in-out hover:bg-[#cdc9cb] dark:border-neutral-500 dark:hover:bg-neutral-600">
-                                    <td class="whitespace-nowrap px-6 py-4 font-medium"><a href=${n.url} target="_blank" class="font-medium hover:underline">${n.title}</a></td>
-                                    <td class="whitespace-nowrap px-6 py-4 font-medium">${n.description}</td>
-
-                                </tr>
-                            </#list>
-                            </tbody>
-                        </table>
+                <#list gameNewsData.news as n>
+                    <div class="flex items-center justify-center">
+                        <div class="inline-block min-w-[50rem] rounded-lg mx-[5rem] py-2 m-3">
+                            <a href=${n.url} target="_blank">
+                                <div class="border-r border-b border-l border-gray-400 lg:border-l-0 lg:border-t lg:border-gray-400 bg-white rounded-b lg:rounded-b-none lg:rounded-r p-4 flex flex-col justify-between leading-normal">
+                                    <div class="mb-8">
+                                        <div class="text-gray-900 font-bold text-xl mb-2 news-title">${n.title}</div>
+                                        <p class="text-gray-700 text-base news-desc">${n.description}</p>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
                     </div>
-                </div>
+                </#list>
             </div>
         </div>
     </div>
