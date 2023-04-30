@@ -23,7 +23,7 @@
     </#list>
 </div>
 <div class="flex flex-col items-center">
-    <button class="bg-[#cdc9cb] m-3 hover:bg-[#ce5936] text-[#a58c4a] font-bold py-2 px-4 border border-[#ce5936] rounded">
+    <button class="add-game bg-[#cdc9cb] m-3 hover:bg-[#ce5936] text-[#a58c4a] font-bold py-2 px-4 border border-[#ce5936] rounded">
       Add Game
     </button>
 </div>

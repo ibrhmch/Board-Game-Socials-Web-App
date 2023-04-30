@@ -15,7 +15,6 @@ import io.ktor.server.netty.*
 import io.ktor.util.*
 import io.ktor.util.pipeline.*
 import org.slf4j.LoggerFactory
-import com.goodboards.app.game.Game
 import com.goodboards.app.game.GameNews
 import com.goodboards.app.game.GamesHelper
 import com.goodboards.app.news.NewsHelper
@@ -53,8 +52,8 @@ fun Application.module() {
         get("/game/{id}") {
             val id = call.parameters.getOrFail<String>("id")
             val game = GamesHelper.getGameById(id)
-            val mockNewsData = NewsHelper.getNewsForGame(game.name)
-            val gameNewsData = GameNews(id, game.name, game.description, mockNewsData)
+            val news = NewsHelper.getNewsForGame(game.name)
+            val gameNewsData = GameNews(id, game.name, game.description, news)
             call.respond(FreeMarkerContent("games/game.ftl", mapOf("gameNewsData" to gameNewsData)))
         }
         get("/game/{id}/new") {
