@@ -1,5 +1,7 @@
 package com.goodboards.db
 
+import java.sql.Connection
+
 class DBInterface(dbConnection: DBConnection) {
 
     private val connection = dbConnection.getConnection()
@@ -43,11 +45,6 @@ class DBInterface(dbConnection: DBConnection) {
         connection.prepareStatement(statement).execute()
     }
 
-    fun getNewsForGame(gameName: String): List<News> {
-        // TODO implement function to get news
-        return mutableListOf(News("id", "author", "title", "1@2.com"), News("id", "author", "title", "1@2.com"))
-    }
-
     fun getGameByName(name: String) : Game {
         val statement = "SELECT * FROM goodboards.games WHERE name='$name';"
         val query = connection.prepareStatement(statement)
@@ -71,6 +68,25 @@ class DBInterface(dbConnection: DBConnection) {
         query.setString(1, uuid)
         val rowsDeleted = query.executeUpdate()
         return rowsDeleted != 0
+    }
+    fun getNewsForGame(gameId: String) : List<News> {
+        val query = connection.prepareStatement("SELECT * FROM goodboards.news WHERE gameid = '${gameId}';")
+        val result = query.executeQuery()
+        val news = mutableListOf<News>()
+        while(result.next()){
+            val id = result.getString("id")
+            val gameId = result.getString("gameId")
+            val name = result.getString("title")
+            val description = result.getString("description")
+            val url = result.getString("url")
+            news.add(News(id, gameId, name, description, url))
+        }
+        return news
+    }
+
+    fun addNews(title: String, description: String, link: String) {
+        val statement = "INSERT INTO goodboards.news(title, description, url) VALUES('$title','$description','$link');"
+        connection.prepareStatement(statement).execute()
     }
 
 }

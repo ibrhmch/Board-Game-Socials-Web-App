@@ -52,7 +52,7 @@ fun Application.module() {
         get("/game/{id}") {
             val id = call.parameters.getOrFail<String>("id")
             val game = GamesHelper.getGameById(id)
-            val news = NewsHelper.getNewsForGame(game.name)
+            val news = NewsHelper.getNewsForGame(game.id)
             val gameNewsData = GameNews(id, game.name, game.description, news)
             call.respond(FreeMarkerContent("games/game.ftl", mapOf("gameNewsData" to gameNewsData)))
         }
