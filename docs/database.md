@@ -41,8 +41,9 @@ CREATE TABLE goodboards.games (
 /* News Table */
 CREATE TABLE goodboards.news (
     id uuid DEFAULT uuid_generate_v4() PRIMARY KEY,
-    timestamp TIMESTAMP NOT NULL,
+    gameId VARCHAR(255) NOT NULL,
     title VARCHAR(255) NOT NULL,
+    url VARCHAR(255) NOT NULL,
     description VARCHAR(255)
 );
 

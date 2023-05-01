@@ -38,11 +38,11 @@ object DBMock {
     }
 
     fun makeNews(count: Int) = (1 .. count).map {
-        listOf(it.toString(), it.toString() + "Title", it.toString() + "Url", it.toString() + "Description")
+        listOf(it.toString(), it.toString(), it.toString() + "Title", it.toString() + "Url", it.toString() + "Description")
     }.toList()
 
-    fun makeGames(): List<News> = makeNews(1).map {
-        News(it[0], it[1], it[2], it[3])
+    fun mockNews(): List<News> = makeNews(1).map {
+        News(it[0], it[1], it[2], it[3], it[4])
     }
 
     fun makeGame(): Game {

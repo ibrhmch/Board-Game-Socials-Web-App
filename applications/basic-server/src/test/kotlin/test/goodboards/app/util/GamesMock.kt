@@ -18,9 +18,9 @@ object GamesMock {
     }
 
     fun mockGame(): Game {
-        val game = Game("1", "name", "desc")
+        val game = Game("c1ce3f0d-53be-4b47-9228-c668f9f0f503", "name", "desc")
         mockkObject(GamesHelper)
-        every { GamesHelper.getGameById("1") }  returns game
+        every { GamesHelper.getGameById("c1ce3f0d-53be-4b47-9228-c668f9f0f503") }  returns game
         return game
     }
 }

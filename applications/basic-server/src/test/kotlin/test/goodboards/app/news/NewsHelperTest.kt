@@ -13,10 +13,10 @@ class NewsHelperTest {
     fun testGetNewsForGame() {
         DBMock.mockDBConnection()
         val dbInterface = DBMock.mockDBInterface()
-        val dbNews = DBMock.makeGames()
-        every { dbInterface.getNewsForGame("Uno") } returns dbNews
-        val news: List<News> = NewsHelper.getNewsForGame("Uno");
-        verify (exactly = 1) { dbInterface.getNewsForGame("Uno") }
+        val dbNews = DBMock.mockNews()
+        every { dbInterface.getNewsForGame("c1ce3f0d-53be-4b47-9228-c668f9f0f503") } returns dbNews
+        val news: List<News> = NewsHelper.getNewsForGame("c1ce3f0d-53be-4b47-9228-c668f9f0f503");
+        verify (exactly = 1) { dbInterface.getNewsForGame("c1ce3f0d-53be-4b47-9228-c668f9f0f503") }
         assertTrue { dbNews.size == news.size }
     }
 }
