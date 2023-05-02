@@ -48,10 +48,10 @@ object UUIDHelper{
     fun randomUUID(): UUID = UUID.randomUUID()!!
 }
 
-class ExampleWorker(override val name: String = "data-analyzer") : Worker<ExampleTask> {
+class ExampleWorker(override val name: String = "data-analyzer") : Worker<AnalyzerTask> {
     private val logger = LoggerFactory.getLogger(this.javaClass)
 
-    override fun execute(task: ExampleTask) {
+    override fun execute(task: AnalyzerTask) {
         runBlocking {
             logger.info("starting data analysis.")
 
