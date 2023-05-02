@@ -3,6 +3,7 @@ package test.goodboards.db
 import com.goodboards.db.Game
 import com.goodboards.db.DBInterface
 import com.goodboards.db.DBConnection
+import com.goodboards.db.News
 import org.junit.Test
 import kotlin.test.*
 import io.mockk.*
@@ -224,6 +225,34 @@ class DBInterfaceTest {
             }
         )
     }
+
+    @Test
+    fun testGetAllNews() {
+        // given -> setup
+        // *** Setup desired game values
+        val news = mutableListOf(
+            News("1", "1", "News title", "News description", "URL"),
+            News("2", "1", "News title", "News description", "URL")
+        )
+        // *** Setup query
+        val helper = DBInterfaceTestHelpers()
+        helper.parseNews(news)
+        val mockedResultSet = helper.getMockedResultSetForNews()
+        val mockedStatement = helper.getPreparedStatement(mockedResultSet)
+        // *** Mock DB Connection
+        val mockedConnection: Connection = mockk(relaxed = true)
+        every { mockedConnection.prepareStatement("SELECT * FROM goodboards.news WHERE gameid = '1';") } returns mockedStatement
+        val mockedDBConnection: DBConnection = mockk(relaxed = true)
+        every { mockedDBConnection.getConnection() } returns mockedConnection
+
+        // when -> test action
+        val dbInterface = DBInterface(mockedDBConnection)
+        val result = dbInterface.getNewsForGame("1")
+
+        // then -> verify results
+        assertEquals(news, result)
+    }
+
     //TODO: Write testcases for deleteGameByID and addGame.
 
 
