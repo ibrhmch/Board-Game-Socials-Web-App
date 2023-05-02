@@ -17,7 +17,7 @@ class AnalyzerWorkerTest{
     @Test
     fun testNewsNotIncludedinDB(){
         // mock the news unit that will be added
-        val newsUnits = arrayOf(
+        val newsUnits = listOf<String>(
             """{
                 "gameID": "Fake gameId",
                 "title": "Fake title",
@@ -36,7 +36,7 @@ class AnalyzerWorkerTest{
         every { Wrapper.getRedisInterface() } returns mockedRedisInterface
         every { Wrapper.getRandomUUID()} returns "FakeUUID1"
         every { Wrapper.getDBInterface() } returns mockedDBInterface
-        every { mockedRedisInterface.getFromList("news:collect-analyze", 10)} returns newsUnits.toList()
+        every { mockedRedisInterface.getFromList("news:collect-analyze", 10)} returns newsUnits
 
 
         val mockedResultSet: ResultSet = mockk(relaxed = true)
@@ -52,14 +52,12 @@ class AnalyzerWorkerTest{
 
     @Test
     fun testNewsAlreadyinDB(){
-        val newsUnits = arrayOf(
-            """{
+        val newsUnits = listOf<String>("""{
                 "gameID": "Fake gameId",
                 "title": "Fake title",
                 "description": "Fake description",
                 "url": "Fake URL"
-            }""".trimIndent()
-        )
+            }""")
         mockkObject(Wrapper)
         val mockedDBConnection: Connection = mockk(relaxed = true)
         val mockedRedisInterface: RedisInterface = mockk(relaxed = true)
@@ -70,7 +68,7 @@ class AnalyzerWorkerTest{
         every { Wrapper.getRedisInterface() } returns mockedRedisInterface
         every { Wrapper.getRandomUUID()} returns "FakeUUID1"
         every { Wrapper.getDBInterface() } returns mockedDBInterface
-        every { mockedRedisInterface.getFromList("news:collect-analyze", 10)} returns newsUnits.toList()
+        every { mockedRedisInterface.getFromList("news:collect-analyze", 10)} returns newsUnits
 
 
         val mockedResultSet: ResultSet = mockk(relaxed = true)
