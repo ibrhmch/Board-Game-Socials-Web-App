@@ -60,9 +60,7 @@ fun Application.module() {
             val id = call.parameters.getOrFail<String>("id")
             call.respond(FreeMarkerContent("games/newGame.ftl", mapOf("game" to GamesHelper.getAllGames().find { it.id == id })))
         }
-        get("/contact") {
-            call.respond(FreeMarkerContent("contact.ftl", mapOf("games" to GamesHelper.getAllGames())))
-        }
+
         get("/games") {
             val games = GamesHelper.getAllGames()
             call.respond(FreeMarkerContent("games/games.ftl", mapOf("games" to games)))
