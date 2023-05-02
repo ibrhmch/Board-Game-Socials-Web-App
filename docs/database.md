@@ -191,6 +191,20 @@ val dbInterface = DBInterface(DBConnection)
 val news = dbInterface.getNewsForGame("46ab38e7-0d1e-4b25-86b9-9388726f8e82")
 ```
 
+#### getNewsBasedonTitle()
+```kotlin
+// @param: String, title of the news article
+// @param: List, contains all news article with that name
+fun getNewsBasedonTitle(title: String): List<News>
+```
+Returns a list of news with the title that we are looking for
+
+_Example_
+```kotlin
+val dbInterface = DBInterface(DBConnection)
+val newsList = dbInterface.getNewsBasedonTitle("Fake news title")
+```
+
 #### addNews()
 ```kotlin
 // @param: String, title of the news

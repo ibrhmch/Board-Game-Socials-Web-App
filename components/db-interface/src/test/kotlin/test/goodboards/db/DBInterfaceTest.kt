@@ -253,6 +253,29 @@ class DBInterfaceTest {
         assertEquals(news, result)
     }
 
+    @Test
+    fun testGetNewsBasedOnTitle(){
+        val news = mutableListOf(
+            News("1", "1", "News title", "News description", "URL"),
+        )
+        val helper = DBInterfaceTestHelpers()
+        helper.parseNews(news)
+        val mockedResultSet = helper.getMockedResultSetForNews()
+        val mockedStatement = helper.getPreparedStatement(mockedResultSet)
+        // *** Mock DB Connection
+        val mockedConnection: Connection = mockk(relaxed = true)
+        every { mockedConnection.prepareStatement("SELECT * FROM goodboards.news WHERE title = 'News title';") } returns mockedStatement
+        val mockedDBConnection: DBConnection = mockk(relaxed = true)
+        every { mockedDBConnection.getConnection() } returns mockedConnection
+
+        // when -> test action
+        val dbInterface = DBInterface(mockedDBConnection)
+        val result = dbInterface.getNewsBasedonTitle("News title")
+
+        // then -> verify results
+        assertEquals(news, result)
+    }
+
     //TODO: Write testcases for deleteGameByID and addGame.
 
 
