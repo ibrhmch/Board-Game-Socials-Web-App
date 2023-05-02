@@ -1,7 +1,8 @@
 <#-- @ftlvariable name="games" -->
 <#import "../_layout.ftl" as layout />
 <@layout.header>
-
+    <h1 class="my-4 text-5xl m-5 text-center leading-none tracking-tight md:text-5xl lg:text-6xl text-[#a58c4a]" style="font-family: 'Ultra', serif;">Games</h1>
+    <hr>
 <div class="grid grid-cols-2 gap-4 h-[100%]">
     <#list games?reverse as game>
     <div class="w-full flex items-center justify-center">
