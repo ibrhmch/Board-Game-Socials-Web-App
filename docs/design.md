@@ -39,7 +39,14 @@ Then when clicking on each game, the detail page will appear with the game name,
   - These units of work are then serialized and pushed to redis
 
 ### Analyzer
-`Analyzer` will collate the news instances from said queue, and persist it in the database with the required relational constraints.
+`Analyzer` retrieve news information from the redis queue and store it into the `goodboards.news` table.
+- The scheduler operates on 30 second intervals to check whether new items have been added to the queue. 
+- When the news items is retrieved from the queue, it is deserialized into `NewsUnit` object.
+  - It is deserialized using the Json package and the decodeFromString function. 
+  - `NewsUnit` object contains article title, description, URL, and the UUID of the corresponding game. 
+- Then a check with be completed to ensure the news article has not been included in the `goodboards.news` through the article title. 
+- If the article does not exist in `goodboards.news`, the article will be added via [databaseInterface](https://github.com/CSCI-5828-Foundations-Sftware-Engr/slackers/blob/feature/collector/docs/database.md#database-interface). 
+  - The newly added article contains the title, description, URL, UUID from the associated game, and a UUID for the news article. 
 
 ## Database
 We are using a Postgres database. Some key design decisions:
