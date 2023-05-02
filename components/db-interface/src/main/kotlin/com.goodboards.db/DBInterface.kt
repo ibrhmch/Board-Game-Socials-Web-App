@@ -84,8 +84,8 @@ class DBInterface(dbConnection: DBConnection) {
         return news
     }
 
-    fun addNews(title: String, description: String, link: String) {
-        val statement = "INSERT INTO goodboards.news(title, description, url) VALUES('$title','$description','$link');"
+    fun addNews(title: String, description: String, link: String, gameId: String, id: String) {
+        val statement = "INSERT INTO goodboards.news(id, gameid, title, description, url) VALUES('$id','$gameId', '$title','$description','$link');"
         connection.prepareStatement(statement).execute()
     }
 
