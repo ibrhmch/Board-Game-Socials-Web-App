@@ -1,10 +1,7 @@
 package test.goodboards.app.util
 
 import com.goodboards.app.database.DBHelper
-import com.goodboards.db.DBInterface
-import com.goodboards.db.DriverManagerWrapper
-import com.goodboards.db.Game
-import com.goodboards.db.SystemWrapper
+import com.goodboards.db.*
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.mockkObject
@@ -35,8 +32,21 @@ object DBMock {
     fun makeGameInfos(count: Int) = ( 1 ..  count).map {
             listOf(it.toString(), it.toString() + "Name", it.toString() + "Description")
         }.toList()
+
     fun mockGames(count: Int): List<Game> = makeGameInfos(count).map {
         Game(it[0], it[1], it[2])
+    }
+
+    fun makeNews(count: Int) = (1 .. count).map {
+        listOf(it.toString(), it.toString(), it.toString() + "Title", it.toString() + "Url", it.toString() + "Description")
+    }.toList()
+
+    fun mockNews(): List<News> = makeNews(1).map {
+        News(it[0], it[1], it[2], it[3], it[4])
+    }
+
+    fun makeGame(): Game {
+        return Game("id", "name", "desc")
     }
 
     fun mockDBInterface() : DBInterface {

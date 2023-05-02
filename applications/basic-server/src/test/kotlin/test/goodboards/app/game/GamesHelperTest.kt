@@ -29,6 +29,18 @@ class GamesHelperTest {
         }
     }
 
+    @Test
+    fun testGetGameById() {
+        DBMock.mockDBConnection()
+        val dbInterface = DBMock.mockDBInterface()
+        val dbGame = DBMock.makeGame()
+        every { dbInterface.getGameById("id") } returns dbGame
+        val game: Game = GamesHelper.getGameById("id")
+        verify (exactly = 1) { dbInterface.getGameById("id") }
+        assertTrue { dbGame.uuid == game.id }
+
+    }
+
     @After
     fun clearSetup() {
         clearAllMocks()
