@@ -18,7 +18,7 @@ class AnalyzerWorker(override val name: String = "data-analyzer") : Worker<Analy
             val dbInterface = Wrapper.getDBInterface()
             val conn = Wrapper.getConnection()
             val redisInterface = Wrapper.getRedisInterface()
-            val redisQueue = redisInterface.getFromList(key = "news:collect-analyze", 10)
+            val redisQueue = redisInterface.getFromList("news:collect-analyze", 10)
             for (item in redisQueue) {
                 val newsItem = Json.decodeFromString<NewsUnit>(item)
                 newsItem.title = AnalyzerWorkerHelper.setDoubleApostrophe(newsItem.title)

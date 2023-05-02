@@ -36,7 +36,7 @@ class AnalyzerWorkerTest{
         every { Wrapper.getRedisInterface() } returns mockedRedisInterface
         every { Wrapper.getRandomUUID()} returns "FakeUUID1"
         every { Wrapper.getDBInterface() } returns mockedDBInterface
-        every { mockedRedisInterface.getFromList(key = "news:collect-analyze", 10)} returns newsUnits.toList()
+        every { mockedRedisInterface.getFromList("news:collect-analyze", 10)} returns newsUnits.toList()
 
 
         val mockedResultSet: ResultSet = mockk(relaxed = true)
@@ -70,7 +70,7 @@ class AnalyzerWorkerTest{
         every { Wrapper.getRedisInterface() } returns mockedRedisInterface
         every { Wrapper.getRandomUUID()} returns "FakeUUID1"
         every { Wrapper.getDBInterface() } returns mockedDBInterface
-        every { mockedRedisInterface.getFromList(key = "news:collect-analyze", 10)} returns newsUnits.toList()
+        every { mockedRedisInterface.getFromList("news:collect-analyze", 10)} returns newsUnits.toList()
 
 
         val mockedResultSet: ResultSet = mockk(relaxed = true)
