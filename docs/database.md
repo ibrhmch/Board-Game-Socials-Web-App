@@ -177,6 +177,38 @@ _Example_
 val dbInterface = DBInterface(DBConnection)
 val status = dbInterface.deleteGameById("46ab38e7-0d1e-4b25-86b9-9388726f8e82")
 ```
+#### getNewsForGame()
+```kotlin
+// @param: String, uuid of the game 
+// @param: List, contains all News object associated with that game
+fun getNewsForGame(gameId: String): List<News>
+```
+Returns all news article associated with the game
+
+_Example_
+```kotlin
+val dbInterface = DBInterface(DBConnection)
+val news = dbInterface.getNewsForGame("46ab38e7-0d1e-4b25-86b9-9388726f8e82")
+```
+
+#### addNews()
+```kotlin
+// @param: String, title of the news
+// @param: String, description of the news
+// @param: String, link for the news
+// @param: String, gameId for the associated game
+// @param: String, id for the news article
+// @return: None
+fun addNews(title: String, description: String, link: String, gameId: String, id: String)
+```
+
+Adds a news article with the provided data to the database
+
+_Example_
+```kotlin
+val dbInterface = DBInterface(DBConnection)
+dbInterface.addNews("News title", "some content for the news", "www.somewhere.com/News-title", "46ab38e7-0d1e-4b25-86b9-9388726f8e82", "1878819e-e8b3-11ed-a05b-0242ac120003")
+```
 
 ## TODOs
 - Unit tests for `addGame()` and `deleteGameById()`
