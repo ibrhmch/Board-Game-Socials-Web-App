@@ -84,6 +84,21 @@ class DBInterface(dbConnection: DBConnection) {
         return news
     }
 
+    fun getNewsBasedonTitle(title: String) : List<News>{
+        val query = connection.prepareStatement("SELECT * FROM goodboards.news WHERE title = '${title}';")
+        val result = query.executeQuery()
+        val news = mutableListOf<News>()
+        while (result.next()){
+            val id = result.getString("id")
+            val gameId = result.getString("gameid")
+            val name = result.getString("title")
+            val description = result.getString("description")
+            val url = result.getString("url")
+            news.add(News(id, gameId, name, description, url))
+        }
+        return news
+    }
+
     fun addNews(title: String, description: String, link: String, gameId: String, id: String) {
         val statement = "INSERT INTO goodboards.news(id, gameid, title, description, url) VALUES('$id','$gameId', '$title','$description','$link');"
         connection.prepareStatement(statement).execute()
