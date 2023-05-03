@@ -3,7 +3,8 @@
 <@layout.header>
     <form action="/games" method="POST" class="w-full p-5">
         <h1 class="my-4 text-5xl m-5 text-center leading-none tracking-tight md:text-5xl lg:text-6xl text-[#a58c4a]" style="font-family: 'Ultra', serif;">Add Game</h1>
-        <div class="mb-4 w-full flex justify-center">
+        <hr />
+        <div class="my-2 mb-4 w-full flex justify-center">
 
             <div class="flex flex-col w-[65%]">
                 <label for="message" class="block mb-2 text-2xl font-medium text-gray-900 dark:text-white">Name</label>
