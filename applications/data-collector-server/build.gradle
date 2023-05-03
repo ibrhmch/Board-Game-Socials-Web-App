@@ -9,10 +9,11 @@ mainClassName = "com.goodboards.app.collector.AppKt"
 dependencies {
     implementation project(":components:data-collector")
     implementation project(":components:workflow-support")
-    implementation project(":components:db-interface")
 
     // Transitive dependency
     implementation 'io.lettuce:lettuce-core:6.2.4.RELEASE'
+    implementation project(":components:db-interface")
+    implementation project(":components:redis-interface")
 
     testImplementation 'org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.0'
 }
