@@ -18,12 +18,14 @@ class AnalyzerWorker(override val name: String = "data-analyzer") : Worker<Analy
             val dbInterface = Wrapper.getDBInterface()
             val redisInterface = Wrapper.getRedisInterface()
             val redisQueue = redisInterface.getFromList("news:collect-analyze", 10)
+            logger.info(redisQueue.size.toString())
             for (item in redisQueue) {
                 val newsItem = Json.decodeFromString<NewsUnit>(item)
                 newsItem.title = AnalyzerWorkerHelper.setDoubleApostrophe(newsItem.title)
                 newsItem.description = AnalyzerWorkerHelper.setDoubleApostrophe(newsItem.description)
                 val result = dbInterface.getNewsBasedOnTitle(newsItem.title)
-                if (result.isNotEmpty()) {
+                logger.info("results:" + result.size.toString())
+                if (result.isEmpty()) {
                     dbInterface.addNews(newsItem.title,newsItem.description,newsItem.url, newsItem.gameID, Wrapper.getRandomUUID())
                 }
                 logger.info("completed data analysis.")
