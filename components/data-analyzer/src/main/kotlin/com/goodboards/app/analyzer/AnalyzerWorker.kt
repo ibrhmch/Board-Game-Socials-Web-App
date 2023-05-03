@@ -22,7 +22,7 @@ class AnalyzerWorker(override val name: String = "data-analyzer") : Worker<Analy
                 val newsItem = Json.decodeFromString<NewsUnit>(item)
                 newsItem.title = AnalyzerWorkerHelper.setDoubleApostrophe(newsItem.title)
                 newsItem.description = AnalyzerWorkerHelper.setDoubleApostrophe(newsItem.description)
-                val result = dbInterface.getNewsBasedonTitle(newsItem.title)
+                val result = dbInterface.getNewsBasedOnTitle(newsItem.title)
                 if (result.isNotEmpty()) {
                     dbInterface.addNews(newsItem.title,newsItem.description,newsItem.url, newsItem.gameID, Wrapper.getRandomUUID())
                 }

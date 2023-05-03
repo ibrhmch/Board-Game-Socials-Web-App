@@ -8,8 +8,6 @@ import io.mockk.every
 import io.mockk.mockk
 import io.mockk.mockkObject
 import org.junit.Test
-import java.sql.Connection
-import java.sql.ResultSet
 import kotlin.test.assertEquals
 
 
@@ -41,7 +39,7 @@ class AnalyzerWorkerTest{
         every { Wrapper.getRandomUUID()} returns "FakeUUID1"
         every { Wrapper.getDBInterface() } returns mockedDBInterface
         every { mockedRedisInterface.getFromList("news:collect-analyze", 10)} returns newsUnits
-        every { mockedDBInterface.getNewsBasedonTitle("Fake title") } returns mockedNewsResponse
+        every { mockedDBInterface.getNewsBasedOnTitle("Fake title") } returns mockedNewsResponse
 
         val newsItem = NewsUnit("Fake gameId", "Fake title", "Fake description", "Fake URL")
         every { mockedDBInterface.addNews(newsItem.title, newsItem.description, newsItem.url, newsItem.gameID, Wrapper.getRandomUUID()) } returns Unit
@@ -67,7 +65,7 @@ class AnalyzerWorkerTest{
         every { Wrapper.getRandomUUID()} returns "FakeUUID1"
         every { Wrapper.getDBInterface() } returns mockedDBInterface
         every { mockedRedisInterface.getFromList("news:collect-analyze", 10)} returns newsUnits
-        every { mockedDBInterface.getNewsBasedonTitle("Fake title") } returns mockedNewsResponse
+        every { mockedDBInterface.getNewsBasedOnTitle("Fake title") } returns mockedNewsResponse
 
         val task = AnalyzerTask("Analyzer Task test")
         val worker = AnalyzerWorker()

@@ -270,7 +270,7 @@ class DBInterfaceTest {
 
         // when -> test action
         val dbInterface = DBInterface(mockedDBConnection)
-        val result = dbInterface.getNewsBasedonTitle("News title")
+        val result = dbInterface.getNewsBasedOnTitle("News title")
 
         // then -> verify results
         assertEquals(news, result)
