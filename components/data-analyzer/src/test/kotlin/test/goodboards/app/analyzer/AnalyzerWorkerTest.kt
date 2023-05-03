@@ -7,6 +7,7 @@ import com.goodboards.redis.RedisInterface
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.mockkObject
+import io.mockk.verify
 import org.junit.Test
 import kotlin.test.assertEquals
 
@@ -42,11 +43,13 @@ class AnalyzerWorkerTest{
         every { mockedDBInterface.getNewsBasedOnTitle("Fake title") } returns mockedNewsResponse
 
         val newsItem = NewsUnit("Fake gameId", "Fake title", "Fake description", "Fake URL")
-        every { mockedDBInterface.addNews(newsItem.title, newsItem.description, newsItem.url, newsItem.gameID, Wrapper.getRandomUUID()) } returns Unit
+        every { mockedDBInterface.addNews(newsItem.title, newsItem.description, newsItem.url, newsItem.gameID, "FakeUUID1") } returns Unit
 
         val task = AnalyzerTask("Analyzer Task test")
         val worker = AnalyzerWorker()
         worker.execute(task)
+        verify { mockedDBInterface.addNews(newsItem.title, newsItem.description, newsItem.url, newsItem.gameID, "FakeUUID1") }
+
     }
 
     @Test
