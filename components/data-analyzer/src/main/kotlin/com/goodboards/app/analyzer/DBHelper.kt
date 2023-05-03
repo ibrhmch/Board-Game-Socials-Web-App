@@ -2,7 +2,6 @@ package com.goodboards.app.analyzer
 
 import com.goodboards.db.DBConnection
 import com.goodboards.db.DBInterface
-import com.goodboards.db.SystemWrapper
 
 // TODO refactor DB Connection management
 object DBHelper {
@@ -25,9 +24,9 @@ object DBHelper {
         }
 
         fun getDatabaseCredentials() : DatabaseCredential {
-            val DB_URL: String = SystemWrapper.getenv("JDBC_DATABASE_URL")
-            val DB_USENAME : String =  SystemWrapper.getenv("DATABASE_USERNAME")
-            val DB_PASSWORD : String = SystemWrapper.getenv("DATABASE_PASSWORD")
+            val DB_URL: String = Wrapper.getenv("JDBC_DATABASE_URL")
+            val DB_USENAME : String =  Wrapper.getenv("DATABASE_USERNAME")
+            val DB_PASSWORD : String = Wrapper.getenv("DATABASE_PASSWORD")
             return DatabaseCredential(DB_URL, DB_USENAME, DB_PASSWORD)
         }
 
