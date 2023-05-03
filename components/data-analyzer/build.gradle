@@ -7,5 +7,4 @@ dependencies {
     implementation project(":components:db-interface")
     implementation 'io.lettuce:lettuce-core:6.2.4.RELEASE'
     implementation project(':components:redis-interface')
-    implementation project(':applications:basic-server')
 }
