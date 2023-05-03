@@ -22,6 +22,7 @@ import java.util.*
 import io.ktor.client.features.json.*
 import io.ktor.client.features.json.serializer.*
 import io.ktor.client.features.logging.*
+import io.ktor.request.*
 
 private val logger = LoggerFactory.getLogger("App.kt")
 val client = HttpClient(CIO) {
@@ -56,14 +57,21 @@ fun Application.module() {
             val gameNewsData = GameNews(id, game.name, game.description, news)
             call.respond(FreeMarkerContent("games/game.ftl", mapOf("gameNewsData" to gameNewsData)))
         }
-        get("/game/{id}/new") {
-            val id = call.parameters.getOrFail<String>("id")
-            call.respond(FreeMarkerContent("games/newGame.ftl", mapOf("game" to GamesHelper.getAllGames().find { it.id == id })))
+        get("/games/new") {
+            call.respond(FreeMarkerContent("games/newGame.ftl",  mapOf("games" to GamesHelper.getAllGames())))
         }
 
         get("/games") {
             val games = GamesHelper.getAllGames()
             call.respond(FreeMarkerContent("games/games.ftl", mapOf("games" to games)))
+        }
+
+        post("/games") {
+            val formParameters = call.receiveParameters()
+            val name = formParameters.getOrFail("name")
+            val description = formParameters.getOrFail("description")
+            GamesHelper.addGame(name, description)
+            call.respond(FreeMarkerContent("games/games.ftl", mapOf("games" to GamesHelper.getAllGames())))
         }
 
         static("images") { resources("images") }

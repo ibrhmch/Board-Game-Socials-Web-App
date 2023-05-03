@@ -15,6 +15,10 @@ Both due to the requirement for the course and it's compatibility to the goal we
 ## Contact Page 
 ![image](images/contact.png)
 
+
+## Create new Game
+![img_1.png](img_1.png)
+
 ## Description
 The current Goodboards contains two tabs: Games and Contact. Contact will display the list of all authors. Games will display a list of all games stored. 
 Then when clicking on each game, the detail page will appear with the game name, its descriptions, and a news section.
@@ -23,7 +27,7 @@ Then when clicking on each game, the detail page will appear with the game name,
 - /games: Lists game information and news
 - /contact: Lists Contact information about developers
 - /game/{id}: Display the individual game description and news. 
-
+- /games/new: Display form with inputs for name and game description for adding game
 
 ## News Retrieval
 
