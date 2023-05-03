@@ -1,30 +1,23 @@
 <#-- @ftlvariable name="game" -->
 <#import "../_layout.ftl" as layout />
 <@layout.header>
-    <div>
-        <h1 class="text-4xl text-center mb-4 text-[#cdc9cb]">
-            Create a new session for ${game.name}
-        </h1>
-        <hr>
+    <form action="/games" method="POST" class="w-full p-5">
+        <h1 class="my-4 text-5xl m-5 text-center leading-none tracking-tight md:text-5xl lg:text-6xl text-[#a58c4a]" style="font-family: 'Ultra', serif;">Add Game</h1>
+        <div class="mb-4 w-full flex justify-center">
 
-        <div class="mb-4 text-[#cdc9cb] px-4 py-5">
-            <h1>TODO WORK create the form for creating a session</h1>
-            <form class="w-full max-w-sm border-solid border-1 p-5">
-                <div class="flex items-stretch">
-                  <div class="relative z-0 w-full mb-6 group">
-                      <input autocomplete="off" type="username" name="username" id="username" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " required />
-                      <label for="username" class="peer-focus:font-medium absolute text-2xl text-white dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-1 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-[#a58c4a] peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Username</label>
-                  </div>
-                    <div>
-                        <button class="bg-[#cdc9cb] mx-2 hover:bg-[#ce5936] text-[#a58c4a] p-2 font-bold px-4 border border-[#ce5936] rounded" href="#">
-                            Add
-                        </button>
-                    </div>
+            <div class="flex flex-col w-[65%]">
+                <label for="message" class="block mb-2 text-2xl font-medium text-gray-900 dark:text-white">Name</label>
+                <input class="shadow mb-3 appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="name" name="name" type="text" placeholder="Name">
+
+                <label for="message" class="block mb-2 text-2xl font-medium text-gray-900 dark:text-white">Description</label>
+                <textarea id="message" rows="4" class="block mb-2 p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600
+                 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" name="description" placeholder="Description"></textarea>
+
+                <div class="flex">
+                    <button class="inline-block submit-game my-2 bg-[#cdc9cb] hover:bg-[#ce5936] text-[#a58c4a] font-bold py-2 px-4 border border-[#ce5936] rounded" type="submit">Add Game</button>
                 </div>
-            </form>
+            </div>
+
         </div>
-
-
-
-    </div>
+    </form>
 </@layout.header>
