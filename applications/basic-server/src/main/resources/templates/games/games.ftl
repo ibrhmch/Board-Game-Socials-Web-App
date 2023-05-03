@@ -3,12 +3,12 @@
 <@layout.header>
     <h1 class="my-4 text-5xl m-5 text-center leading-none tracking-tight md:text-5xl lg:text-6xl text-[#a58c4a]" style="font-family: 'Ultra', serif;">Games</h1>
     <hr>
-<div class="grid grid-cols-2 gap-4 h-[100%]">
+<div class="grid grid-cols-2 gap-4 h-[100%] p-">
     <#list games as game>
     <div class="w-full flex items-center justify-center">
         <a class="font-medium text-blue-600 dark:text-blue-500 hover:underline" href="/game/${game.id}">
         <div
-          class="flex flex-col w-[15rem] rounded-lg bg-[#cdc9cb] shadow-[0_2px_15px_-3px_rgba(0,0,0,0.07),0_10px_20px_-2px_rgba(0,0,0,0.04)] m-5 p-3 dark:bg-neutral-700 md:max-w-xl md:flex-row">
+          class="flex flex-col w-[20rem] rounded-lg bg-[#cdc9cb] shadow-[0_2px_15px_-3px_rgba(0,0,0,0.07),0_10px_20px_-2px_rgba(0,0,0,0.04)] m-5 p-3 dark:bg-neutral-700 md:max-w-xl md:flex-row">
               <div class="game flex flex-col justify-start p-6">
                 <h5
                   class="mb-2 text-xl font-medium text-neutral-800 dark:text-neutral-50">
