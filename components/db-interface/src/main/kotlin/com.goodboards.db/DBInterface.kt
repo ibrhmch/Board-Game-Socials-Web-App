@@ -1,7 +1,5 @@
 package com.goodboards.db
 
-import java.sql.Connection
-
 class DBInterface(dbConnection: DBConnection) {
 
     private val connection = dbConnection.getConnection()
@@ -84,7 +82,7 @@ class DBInterface(dbConnection: DBConnection) {
         return news
     }
 
-    fun getNewsBasedonTitle(title: String) : List<News>{
+    fun getNewsBasedOnTitle(title: String) : List<News>{
         val query = connection.prepareStatement("SELECT * FROM goodboards.news WHERE title = '${title}';")
         val result = query.executeQuery()
         val news = mutableListOf<News>()
