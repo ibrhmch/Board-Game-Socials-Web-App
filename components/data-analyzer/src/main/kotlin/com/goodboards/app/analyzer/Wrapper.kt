@@ -11,5 +11,6 @@ object Wrapper {
         return DBHelper.getDBInterface()
     }
     fun getRandomUUID(): String = UUID.randomUUID().toString()
+    fun getenv(key: String): String = System.getenv(key)!!
 
 }
