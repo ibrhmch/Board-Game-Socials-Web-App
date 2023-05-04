@@ -200,6 +200,38 @@ class DBInterfaceTest {
     }
 
     @Test
+    fun testAddGame() {
+        // given -> setup
+        // *** Setup desired game values
+        val games = mutableListOf(
+            Game("1", "Uno", "Classic Uno")
+        )
+        // *** Setup query
+        val helper = DBInterfaceTestHelpers()
+        helper.parseGames(games)
+        val mockedResultSet = helper.getMockedResultSet()
+        val mockedStatement = helper.getPreparedStatement(mockedResultSet)
+        // *** Mock DB Connection
+        val mockedConnection: Connection = mockk(relaxed = true)
+        every { mockedConnection.prepareStatement("INSERT INTO goodboards.games(name, description) " +
+                "VALUES('Uno','Classic Uno');") } returns mockedStatement
+        every { mockedConnection.prepareStatement("SELECT * FROM goodboards.games WHERE id='1';") } returns mockedStatement
+        val mockedDBConnection: DBConnection = mockk(relaxed = true)
+        every { mockedDBConnection.getConnection() } returns mockedConnection
+
+        // when -> test action
+        val dbInterface = DBInterface(mockedDBConnection)
+        dbInterface.addGame("Uno", "Classic Uno")
+
+        // then -> verify results
+        val result = dbInterface.getGameById("1")
+
+        // then -> verify results
+        assertEquals(games[0], result)
+    }
+
+
+    @Test
     fun testGetGameByName_DoesNotExist() {
         // given -> setup
         // *** Setup desired game values
