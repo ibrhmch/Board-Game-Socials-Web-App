@@ -66,7 +66,7 @@ Since the **integration** tests are not yet ready, we manually tested our two pa
 
 **Anticipated Velocity:** 5
 
-**Actual Velocity:** X
+**Actual Velocity:** 6
 
 **Tasks:** Each will have 1 primary task holder, listed below. Most tasks will be done in pairs.
 
@@ -76,3 +76,15 @@ Since the **integration** tests are not yet ready, we manually tested our two pa
 - 41: Lin (pair: Michelle)
 - 42: Khaled (pair: Lin)
 - 44: Abhishek (pair: Khaled)
+
+### Summary:
+- Our webpage now lists all games, and if a game is selected, all news pertinent to that game is displayed
+- We created middleware for the Redis List so the Collector and Analyzer apps have an API to interact with Redis
+- Redis List had been created and initialized in all environments
+- Database has been updated to include the true values for News
+- Testing
+  - Manual testing used to verify all functionality
+  - Integration tests are done
+  - Unit test coverage has been extended for analyzer and collector workers and work finders
+  - Acceptance tests done
+
