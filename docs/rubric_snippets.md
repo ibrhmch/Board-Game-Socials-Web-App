@@ -38,7 +38,7 @@ class AnalyzerWorker(override val name: String = "data-analyzer") : Worker<Analy
   }
 }
 ```
-- [x] [Data analyzer](..%2Fapplications%2Fdata-analyzer-server)
+- [x] [Data analyzer](..%2Fcomponents%2Fdata-analyzer)
 ```kotlin
     fun scheduleAnalyzerNewsTask(){
         val finder = Wrapper.getAnalyzerWorkFinder()
@@ -120,7 +120,7 @@ GITHUB actions for our CI/CD
 - [x] [Acceptance tests](..%2F.github%2Fworkflows%2Fintegration-test-staging.yml)
 - [x] [Event collaboration messaging](..%2Fcomponents%2Fredis-interface%2Fsrc%2Fmain%2Fkotlin%2Fcom%2Fgoodboards%2Fredis%2FRedisInterface.kt)
 ![img_2.png](img_2.png)
-In this screenshot we can see some of our logs. The Collector runs every hour it does the redis list push.
+In this screenshot we can see some of our logs. The Collector runs every hour it does the redis lpush.
 And the analyzer does the rpop. 
 ```kotlin
 class RedisInterface {
