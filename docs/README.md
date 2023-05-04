@@ -2,7 +2,7 @@
 
 ## Web app recording:
 - https://drive.google.com/file/d/164XqPhmPY29jukeR2WJ48qsZjRu4KfjJ/view?usp=share_link
-
+- [Project rubric list](rubric_snippets.md)
 ## Team
 1. Abhishek Purushothama
 2. Ch Mohammad Ibrahim
