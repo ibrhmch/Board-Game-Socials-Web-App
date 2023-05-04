@@ -33,6 +33,11 @@ https://github.com/CSCI-5828-Foundations-Sftware-Engr/slackers/issues/28
 2. It should list five recent articles
 
 ### Result:
-TESTING PENDING
+Accepted
+
+### Observations
+While functionality is all there, there are a couple formatting issues we are working to address:
+- News information is sometimes displayed outside of the bounding box
+- New box sizes can be inconsistent
 
 
