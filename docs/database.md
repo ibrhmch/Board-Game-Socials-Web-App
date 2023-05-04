@@ -47,6 +47,29 @@ CREATE TABLE goodboards.news (
     description VARCHAR(2000)
 );
 
+
+/* Sessions Table */
+CREATE TABLE goodboards.sessions (
+    id uuid DEFAULT uuid_generate_v4() PRIMARY KEY,
+    sessionName VARCHAR(1024) NOT NULL
+);
+
+/* Players Table */
+CREATE TABLE goodboards.players (
+    id uuid DEFAULT uuid_generate_v4() PRIMARY KEY,
+    name VARCHAR(255) NOT NULL
+);
+
+/* PlayerSession Table */
+CREATE TABLE goodboards.playerSession (
+    id uuid DEFAULT uuid_generate_v4() PRIMARY KEY,  
+    playerId VARCHAR(255) NOT NULL,
+    gameId VARCHAR(255) NOT NULL,
+    sessionId VARCHAR(255) NOT NULL,
+    wins integer,
+    losses integer
+);
+
 ```
 
 ## Database Interface

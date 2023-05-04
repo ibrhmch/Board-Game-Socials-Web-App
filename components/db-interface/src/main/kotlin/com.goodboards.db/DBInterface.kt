@@ -102,4 +102,65 @@ class DBInterface(dbConnection: DBConnection) {
         connection.prepareStatement(statement).execute()
     }
 
+    fun getAllSessions() : List<Session> {
+        val query = connection.prepareStatement("SELECT * FROM goodboards.sessions;")
+        val result = query.executeQuery()
+        val sessions = mutableListOf<Session>()
+        while (result.next()) {
+            val id = result.getString("id")
+            val sessionName = result.getString("sessionName")
+            sessions.add(Session(id, sessionName))
+        }
+
+        return sessions;
+    }
+
+    fun getAllPlayers() : List<Player> {
+        val query = connection.prepareStatement("SELECT * FROM goodboards.players;")
+        val result = query.executeQuery()
+        val players = mutableListOf<Player>()
+        while (result.next()) {
+            val id = result.getString("id")
+            val playerName = result.getString("name")
+            players.add(Player(id, playerName))
+        }
+
+        return players;
+    }
+
+    fun getPlayerById(id: String): Player {
+        val query = connection.prepareStatement("SELECT * FROM goodboards.players  WHERE id='$id';");
+        val result = query.executeQuery()
+        val players = mutableListOf<Player>()
+        while (result.next()) {
+            val id = result.getString("id")
+            val playerName = result.getString("name")
+            players.add(Player(id, playerName))
+        }
+        return players[0]
+    }
+
+    fun addSession(sessionName: String) {
+        val statement = "INSERT INTO goodboards.sessions(sessionName) VALUES('$sessionName');"
+        connection.prepareStatement(statement).execute()
+    }
+
+    fun getSessionInfo(sessionId: String): List<PlayerSession> {
+        val statement = "SELECT * FROM goodboards.playerSession WHERE sessionId='$sessionId';"
+        val query = connection.prepareStatement(statement)
+        val result = query.executeQuery()
+        val playerSessions = mutableListOf<PlayerSession>()
+        if(result.next()) {
+            val uuid = result.getString("id")
+            val playerId = result.getString("playerId")
+            val sessionId = result.getString("sessionId")
+            val wins = result.getInt("wins")
+            val losses = result.getInt("losses")
+            val gameId = result.getString("gameId")
+            playerSessions.add(PlayerSession(uuid, playerId, gameId, sessionId, wins, losses))
+        }
+        return playerSessions
+    }
+
+
 }
