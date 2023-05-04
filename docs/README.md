@@ -22,4 +22,5 @@
 7. [Coordination](coordination.md)
 8. [Iteration Planning and Work Distribution](iteration_planning.md)
 9. [Development](development.md)
+10. [Continuous Delivery](continuous_delivery.md)
 
