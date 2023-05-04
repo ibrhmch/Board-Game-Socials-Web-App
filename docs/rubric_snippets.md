@@ -4,10 +4,10 @@
 ![img.png](img.png)
 Here we can see the form to add a game. Pressing the add game button takes the user to the home page. The server get the inputs and calls this DB method
 ```kotlin
-    fun addNews(title: String, description: String, link: String, gameId: String, id: String) {
-        val statement = "INSERT INTO goodboards.news(id, gameid, title, description, url) VALUES('$id','$gameId', '$title','$description','$link');"
+    fun addGame(name: String, description: String) {
+        val statement = "INSERT INTO goodboards.games(name, description) VALUES('$name','$description');"
         connection.prepareStatement(statement).execute()
-    }
+}
 ```
 - [x] [Data collection](..%2Fcomponents%2Fdata-collector)
 - The code snippet below shows how we make rest api GET call to the newsapi.org endpoint to get the news.
