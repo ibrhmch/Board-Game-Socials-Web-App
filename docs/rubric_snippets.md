@@ -10,49 +10,33 @@ Here we can see the form to add a game. Pressing the add game button takes the u
 }
 ```
 - [x] [Data collection](..%2Fcomponents%2Fdata-collector)
-- The code snippet below shows how we make rest api GET call to the newsapi.org endpoint to get the news.
+- The code snippet below shows the analyzer worker class 
 ```kotlin
-    override fun execute(task: RetrieveNewsTask) {
-        runBlocking {
-            logger.info("starting data collection.")
+class AnalyzerWorker(override val name: String = "data-analyzer") : Worker<AnalyzerTask> {
+  private val logger = LoggerFactory.getLogger(this.javaClass)
 
-            // Query news for all games in the database
-            val games = dbInterface.getAllGames()
-            val newsUnits = mutableListOf<String>()
-            for(game in games) {
+  override fun execute(task: AnalyzerTask) {
+    runBlocking {
+      logger.info("starting data analysis.")
 
-                // Format game name for API call
-                val encodedName = URLEncoder.encode(game.name, "UTF-8")
-                val url = "https://newsapi.org/v2/everything?q=$encodedName&language=en&pageSize=10&apiKey=$apiKey"
-
-                // Get data and deserialize
-                try {
-                    // TODO: use a builder instead
-                    val newsRaw: HttpResponse = client.get(url)
-                    val newsResponse = format.decodeFromString<NewsResponse>(newsRaw.readText())
-
-                    // Package response into units of work for redis
-                    for(article in newsResponse.articles) {
-                        if(article.title.isNotEmpty() && article.description.isNotEmpty() && article.url.isNotEmpty()) {
-                            val unit = NewsUnit(game.uuid, article.title, article.description, article.url)
-                            newsUnits.add(format.encodeToString(unit))
-                        }
-                    }
-                } catch (e: Exception) {
-                    logger.error("Failed to fetch news with error $e")
-                }
-            }
-
-            // Put news in Redis if there is any
-            logger.info(newsUnits.size.toString())
-            if(newsUnits.isNotEmpty())
-            {
-                redisInterface.pushToList(name = "news:collect-analyze", newsUnits)
-            }
-
-            logger.info("completed data collection.")
+      val dbInterface = Wrapper.getDBInterface()
+      val redisInterface = Wrapper.getRedisInterface()
+      val redisQueue = redisInterface.getFromList("news:collect-analyze", 10)
+      logger.info(redisQueue.size.toString())
+      for (item in redisQueue) {
+        val newsItem = Json.decodeFromString<NewsUnit>(item)
+        newsItem.title = AnalyzerWorkerHelper.setDoubleApostrophe(newsItem.title)
+        newsItem.description = AnalyzerWorkerHelper.setDoubleApostrophe(newsItem.description)
+        val result = dbInterface.getNewsBasedOnTitle(newsItem.title)
+        logger.info("results:" + result.size.toString())
+        if (result.isEmpty()) {
+          dbInterface.addNews(newsItem.title,newsItem.description,newsItem.url, newsItem.gameID, Wrapper.getRandomUUID())
         }
+        logger.info("completed data analysis.")
+      }
     }
+  }
+}
 ```
 - [x] [Data analyzer](..%2Fapplications%2Fdata-analyzer-server)
 ```kotlin
