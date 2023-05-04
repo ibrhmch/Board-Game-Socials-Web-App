@@ -10,7 +10,64 @@ Here we can see the form to add a game. Pressing the add game button takes the u
 }
 ```
 - [x] [Data collection](..%2Fcomponents%2Fdata-collector)
-- The code snippet below shows the analyzer worker class 
+- The code snippet below shows the collector worker class
+```kotlin
+class RetrieveNewsWorker(override val name: String = "data-collector") : Worker<RetrieveNewsTask> {
+
+    private val logger = LoggerFactory.getLogger(this.javaClass)
+    private val redisInterface = Wrapper.getRedisInterface()
+    private val dbInterface = Wrapper.getDBInterface()
+    private val apiKey = Wrapper.getEnv("NEWS_API_KEY")
+    private val client = Wrapper.getHttpClient()
+    private val format = Json {
+        coerceInputValues = true
+    }
+
+    override fun execute(task: RetrieveNewsTask) {
+        runBlocking {
+            logger.info("starting data collection.")
+
+            // Query news for all games in the database
+            val games = dbInterface.getAllGames()
+            val newsUnits = mutableListOf<String>()
+            for(game in games) {
+
+                // Format game name for API call
+                val encodedName = URLEncoder.encode(game.name, "UTF-8")
+                val url = "https://newsapi.org/v2/everything?q=$encodedName&language=en&pageSize=10&apiKey=$apiKey"
+
+                // Get data and deserialize
+                try {
+                    // TODO: use a builder instead
+                    val newsRaw: HttpResponse = client.get(url)
+                    val newsResponse = format.decodeFromString<NewsResponse>(newsRaw.readText())
+
+                    // Package response into units of work for redis
+                    for(article in newsResponse.articles) {
+                        if(article.title.isNotEmpty() && article.description.isNotEmpty() && article.url.isNotEmpty()) {
+                            val unit = NewsUnit(game.uuid, article.title, article.description, article.url)
+                            newsUnits.add(format.encodeToString(unit))
+                        }
+                    }
+                } catch (e: Exception) {
+                    logger.error("Failed to fetch news with error $e")
+                }
+            }
+
+            // Put news in Redis if there is any
+            logger.info(newsUnits.size.toString())
+            if(newsUnits.isNotEmpty())
+            {
+                redisInterface.pushToList(name = "news:collect-analyze", newsUnits)
+            }
+
+            logger.info("completed data collection.")
+        }
+    }
+}
+```
+- [x] [Data analyzer](..%2Fcomponents%2Fdata-analyzer)
+- The code snippet below shows the analyzer worker class
 ```kotlin
 class AnalyzerWorker(override val name: String = "data-analyzer") : Worker<AnalyzerTask> {
   private val logger = LoggerFactory.getLogger(this.javaClass)
@@ -37,15 +94,6 @@ class AnalyzerWorker(override val name: String = "data-analyzer") : Worker<Analy
     }
   }
 }
-```
-- [x] [Data analyzer](..%2Fcomponents%2Fdata-analyzer)
-```kotlin
-    fun scheduleAnalyzerNewsTask(){
-        val finder = Wrapper.getAnalyzerWorkFinder()
-        val worker = Wrapper.getAnalyzerWorker()
-        val scheduler = WorkScheduler<AnalyzerTask>(finder, mutableListOf(worker), 30)
-        scheduler.start()
-    }
 ```
 The code snippet above shows the scheduler which finds work and then analyzes it periodically. 
 - [x] Unit tests 
@@ -113,11 +161,11 @@ object MockUtil {
 }
 ```
 - [x] [Continuous integration](..%2F.github%2Fworkflows%2Fbuild.yml)
-GITHUB actions for our CI/CD
+Github Actions and Heroku
 
 ![img_1.png](img_1.png)
-- [x] Production monitoring![prd1.jpg](images%2Fprd1.jpg)![prod.jpg](images%2Fprod.jpg)
-- [x] [Acceptance tests](..%2F.github%2Fworkflows%2Fintegration-test-staging.yml)
+- [x] Production monitoring - Heroku Metrics ![prd1.jpg](images%2Fprd1.jpg)![prod.jpg](images%2Fprod.jpg)
+- [x] [Acceptance tests](testing%2Facceptance-tests.md)
 - [x] [Event collaboration messaging](..%2Fcomponents%2Fredis-interface%2Fsrc%2Fmain%2Fkotlin%2Fcom%2Fgoodboards%2Fredis%2FRedisInterface.kt)
 ![img_2.png](img_2.png)
 In this screenshot we can see some of our logs. The Collector runs every hour it does the redis lpush.
@@ -144,4 +192,4 @@ class RedisInterface {
 }
 ```
 
-- [x] [Continuous delivery](..%2F.github)
+- [x] [Continuous delivery](..%2F.github) -- Github Actions and Heroku
