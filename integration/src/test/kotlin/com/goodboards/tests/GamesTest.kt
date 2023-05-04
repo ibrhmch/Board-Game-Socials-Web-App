@@ -15,7 +15,7 @@ class GamesTest {
     companion object {
 
         fun checkGames(body: Element) {
-            assertTrue(body.select("div.game").size == 2)
+            assertTrue(body.select("div.game").size == 4)
         }
     }
 
