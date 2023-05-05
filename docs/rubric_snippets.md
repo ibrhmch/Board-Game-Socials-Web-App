@@ -134,6 +134,8 @@ The code snippet above shows the scheduler which finds work and then analyzes it
         }
 ```
 - [x] [Product environment](..%2F.github%2Fworkflows%2Fbuild.yml)
+<img width="1235" alt="heroku-image" src="https://user-images.githubusercontent.com/28878235/236356161-c4b6be3f-e689-404a-a8a5-7e64a7fe33d2.png">
+
 - [x] [Integration tests](..%2Fintegration)
 - [x] [Using mock objects or any test doubles](..%2Fcomponents%2Fdb-interface%2Fsrc%2Ftest%2Fkotlin%2Ftest%2Fgoodboards%2Fdb%2Futil%2FDBMockUtil.kt)
 
