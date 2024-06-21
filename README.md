@@ -1,4 +1,5 @@
-# This is Goodboards 
+# This is Goodboards a Board Games Socials Web App
+
 The website where you will find your next favorite board game
 
 ## HW5 Deliverables
